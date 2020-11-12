@@ -29,7 +29,7 @@ export default function Home() {
               width="100%"
               isDisabled={!user}
             >
-              <Link href="/authenticated">
+              <Link href="/dashboard">
                 <a>Go to authenticated route</a>
               </Link>
             </Button>

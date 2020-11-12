@@ -4,7 +4,7 @@ import { verifyIdToken } from "../firebaseAdmin";
 import firebaseClient from "../firebaseClient";
 import firebase from "firebase/app";
 import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
-function Authenticated({ session }) {
+function Dashboard({ session }) {
   firebaseClient();
   if (session) {
     return (
@@ -58,4 +58,4 @@ export async function getServerSideProps(context) {
     return { props: {} };
   }
 }
-export default Authenticated;
+export default Dashboard;
