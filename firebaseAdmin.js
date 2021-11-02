@@ -4,8 +4,8 @@ const serviceAccount = require("./secret.json");
 export const verifyIdToken = (token) => {
   if (!admin.apps.length) {
     admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: "https://nextjs-firebase-auth-9bc98.firebaseio.com",
+      credential: admin.credential.cert(serviceAccount)
+      // databaseURL: "https://nextjs-firebase-auth-9bc98.firebaseio.com"
     });
   }
 

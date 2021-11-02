@@ -1,10 +1,12 @@
 import React from "react";
 import nookies from "nookies";
-import { verifyIdToken } from "../firebaseAdmin";
-import firebaseClient from "../firebaseClient";
+import { verifyIdToken } from "../../firebaseAdmin";
+import firebaseClient from "../../firebaseClient";
 import firebase from "firebase/app";
 import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
-function Authenticated({ session }) {
+const admin = require("firebase-admin");
+
+function Studio({ session }) {
   firebaseClient();
   if (session) {
     return (
@@ -46,13 +48,37 @@ function Authenticated({ session }) {
 
 export async function getServerSideProps(context) {
   try {
-    console.log("here");
+    // check if user logged in
     const cookies = nookies.get(context);
     const token = await verifyIdToken(cookies.token);
     const { uid, email } = token;
-    return {
-      props: { session: `Your email is ${email} and your UID is ${uid}.` }
-    };
+
+    // check if path exists
+    var db = admin.firestore();
+    var data = await db
+      .collection("studios")
+      .where("customPath", "==", context.params.userId)
+      .get();
+
+    console.log("data", data.docs[0].data());
+
+    if (data.docs.length == 0) {
+      context.res.writeHead(404, { Location: "/login" });
+      context.res.end();
+      return { props: {} };
+    }
+
+    // check if path belongs to current user
+    if (data.docs[0].data().userId == uid) {
+      console.log("hey");
+      return {
+        props: { session: `Your email is ${email} and your UID is ${uid}.` }
+      };
+    }
+
+    context.res.writeHead(302, { Location: "/" });
+    context.res.end();
+    return { props: {} };
   } catch (err) {
     console.log(err);
     context.res.writeHead(302, { Location: "/login" });
@@ -60,4 +86,4 @@ export async function getServerSideProps(context) {
     return { props: {} };
   }
 }
-export default Authenticated;
+export default Studio;

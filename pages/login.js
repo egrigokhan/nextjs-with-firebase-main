@@ -14,7 +14,7 @@ import {
   Stack,
   Button,
   Heading,
-  useToast,
+  useToast
 } from "@chakra-ui/core";
 
 export default function Login({ props }) {
@@ -58,20 +58,37 @@ export default function Login({ props }) {
             variantColor="blue"
             isDisabled={email === "" || pass === ""}
             onClick={async () => {
-              await firebase
+              const userCredentials = await firebase
                 .auth()
-                .createUserWithEmailAndPassword(email, pass)
-                .then(function (firebaseUser) {
-                  window.location.href = "/";
+                .signInWithPopup(new firebase.auth.TwitterAuthProvider())
+                .then((userCredentials) => {
+                  console.log({ ...userCredentials.user });
+
+                  firebase
+                    .firestore()
+                    .collection("users")
+                    .doc(userCredentials.user.uid)
+                    .set(
+                      {
+                        uid: userCredentials.user.uid,
+                        email: userCredentials.user.email,
+                        name: userCredentials.user.displayName,
+                        provider:
+                          userCredentials.user.providerData[0].providerId,
+                        photoUrl: userCredentials.user.photoURL,
+                        lastSignIn: new Date()
+                      },
+                      { merge: true }
+                    );
                 })
-                .catch(function (error) {
+                .catch((error) => {
                   const message = error.message;
                   toast({
                     title: "An error occurred.",
                     description: message,
                     status: "error",
                     duration: 9000,
-                    isClosable: true,
+                    isClosable: true
                   });
                 });
             }}
@@ -97,7 +114,7 @@ export default function Login({ props }) {
                     description: message,
                     status: "error",
                     duration: 9000,
-                    isClosable: true,
+                    isClosable: true
                   });
                 });
             }}
