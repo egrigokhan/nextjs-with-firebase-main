@@ -12,16 +12,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     return firebase.auth().onIdTokenChanged(async (user) => {
       console.log("auth changed");
-      console.log(user ? user.id : "Nothing");
+      console.log(user ? user : "Nothing");
       if (!user) {
         setUser(null);
-        nookies.set(undefined, "token", "", {});
+        nookies.set(undefined, "firebase-token", "", {});
         return;
       }
 
       const token = await user.getIdToken();
+      console.log(token);
       setUser(user);
-      nookies.set(undefined, "token", token, {});
+      nookies.set(undefined, "firebase-token", token, {});
     });
   }, []);
   return (

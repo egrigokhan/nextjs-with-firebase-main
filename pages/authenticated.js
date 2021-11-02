@@ -1,5 +1,5 @@
 import React from "react";
-import nookies from "nookies";
+import Cookies from "cookies";
 import { verifyIdToken } from "../firebaseAdmin";
 import firebaseClient from "../firebaseClient";
 import firebase from "firebase/app";
@@ -47,8 +47,10 @@ function Authenticated({ session }) {
 export async function getServerSideProps(context) {
   try {
     console.log("here");
-    const cookies = nookies.get(context);
-    const token = await verifyIdToken(cookies.token);
+    const cookies = new Cookies(context);
+    // Get a cookie
+    console.log("token", cookies.get("firebaseToken"));
+    const token = await verifyIdToken(cookies.get("firebaseToken"));
     const { uid, email } = token;
     return {
       props: { session: `Your email is ${email} and your UID is ${uid}.` }
