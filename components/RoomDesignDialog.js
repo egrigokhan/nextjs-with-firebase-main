@@ -1,4 +1,8 @@
+import { useStudio } from "../context/StudioContext";
+
 export default function RoomDesignDialog() {
+  const { studioState, currentRoomIndex, updateShadow } = useStudio();
+
   return (
     <div class="room-design-dialog-container">
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -94,12 +98,19 @@ export default function RoomDesignDialog() {
           >
             Shadows
           </span>
-          <input
-            type="checkbox"
-            checked={true}
-            onChange={() => {}}
-            style={{ marginLeft: "auto" }}
-          />
+          {studioState.rooms[currentRoomIndex] && (
+            <input
+              type="checkbox"
+              checked={studioState.rooms[currentRoomIndex].shadow}
+              onChange={() => {
+                updateShadow(
+                  !studioState.rooms[currentRoomIndex].shadow,
+                  currentRoomIndex
+                );
+              }}
+              style={{ marginLeft: "auto" }}
+            />
+          )}
         </div>
       </div>
     </div>

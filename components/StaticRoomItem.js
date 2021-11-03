@@ -17,10 +17,8 @@ export default class StaticRoomItem extends Component {
           <img
             src="https://miro.medium.com/max/700/1*5AyYzOlGlv501PlJlIdZZQ.jpeg"
             style={{
-              width: "100%",
-              height: "100%",
-              left: this.props.item.position.x,
-              top: this.props.item.position.y
+              width: "100px",
+              height: "100px"
             }}
           />
         </div>

@@ -1,6 +1,25 @@
-export default function Navbar({ props, roomIndex, setRoomIndex }) {
+import { useStudio } from "../context/StudioContext";
+
+export default function Navbar() {
+  const {
+    studioState,
+    currentRoomIndex,
+    setCurrentRoomIndex,
+    updateRoomTitle
+  } = useStudio();
+
   return (
     <div class="navigation-controller-view-container">
+      <div
+        style={{ display: "flex", flexDirection: "row", marginBottom: "8px" }}
+      >
+        <div
+          className="navigation-controller-view-add-room-main"
+          style={{ marginLeft: "auto", marginRight: "auto" }}
+        >
+          <span style={{ fontSize: 10, fontFamily: "Inter" }}>Add Room</span>
+        </div>
+      </div>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           class="arrow-left"
@@ -10,19 +29,25 @@ export default function Navbar({ props, roomIndex, setRoomIndex }) {
             marginLeft: "auto",
             cursor: "pointer",
             borderRight:
-              roomIndex > 0
+              currentRoomIndex > 0
                 ? "14px solid rgb(41, 41, 42)"
                 : "14px solid rgb(41, 41, 42, 0.07)"
           }}
           onClick={() => {
-            if (roomIndex > 0) {
-              setRoomIndex(roomIndex - 1);
+            if (currentRoomIndex > 0) {
+              setCurrentRoomIndex(currentRoomIndex - 1);
             }
           }}
         ></div>
-        <div className="navigation-controller-view-main">
+        <div
+          onClick={() => {
+            const newRoomTitle = prompt("Please rename your room.");
+            updateRoomTitle(newRoomTitle, currentRoomIndex);
+          }}
+          className="navigation-controller-view-main"
+        >
           <span style={{ fontSize: 16, fontFamily: "DM Serif Text" }}>
-            {props.rooms[roomIndex].title}
+            {studioState.rooms[currentRoomIndex].title}
           </span>
         </div>
         <div
@@ -33,13 +58,13 @@ export default function Navbar({ props, roomIndex, setRoomIndex }) {
             marginRight: "auto",
             cursor: "pointer",
             borderLeft:
-              roomIndex < props.rooms.length - 1
+              currentRoomIndex < studioState.rooms.length - 1
                 ? "14px solid rgb(41, 41, 42)"
                 : "14px solid rgb(41, 41, 42, 0.07)"
           }}
           onClick={() => {
-            if (roomIndex < props.rooms.length - 1) {
-              setRoomIndex(roomIndex + 1);
+            if (currentRoomIndex < studioState.rooms.length - 1) {
+              setCurrentRoomIndex(currentRoomIndex + 1);
             }
           }}
         ></div>

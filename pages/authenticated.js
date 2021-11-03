@@ -1,5 +1,4 @@
 import React from "react";
-import Cookies from "cookies";
 import { verifyIdToken } from "../firebaseAdmin";
 import firebaseClient from "../firebaseClient";
 import firebase from "firebase/app";
@@ -47,19 +46,20 @@ function Authenticated({ session }) {
 export async function getServerSideProps(context) {
   try {
     console.log("here");
-    const cookies = new Cookies(context);
-    // Get a cookie
-    console.log("token", cookies.get("firebaseToken"));
-    const token = await verifyIdToken(cookies.get("firebaseToken"));
-    const { uid, email } = token;
+    const cookies = nookies.get(context);
+    console.log("token", cookies);
+    const token = await verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
+    // Pass data to the page via props
     return {
-      props: { session: `Your email is ${email} and your UID is ${uid}.` }
+      props: {
+        props: { session: "Hey!" }
+      }
     };
   } catch (err) {
-    console.log(err);
+    console.log("err", err);
     context.res.writeHead(302, { Location: "/login" });
     context.res.end();
-    return { props: {} };
+    return { props: { session: "" } };
   }
 }
 export default Authenticated;

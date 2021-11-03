@@ -9,14 +9,20 @@ import RoomItem from "./RoomItem";
 import StaticRoomItem from "./StaticRoomItem";
 import NonDraggableRoomItem from "./NonDraggableRoomItem";
 
-export default function App({ props }) {
+import { useStudio } from "../context/StudioContext";
+
+export default function App() {
+  const { studioState, currentRoomIndex } = useStudio();
   var content = useRef(null);
+
+  const [state, setState] = useState(studioState);
 
   const [roomIndex, setRoomIndex] = useState(0);
 
   useEffect(() => {
     console.log(roomIndex);
-  }, [roomIndex]);
+    console.log("state", state);
+  }, [roomIndex, state]);
   return (
     <div
       style={{
@@ -25,12 +31,9 @@ export default function App({ props }) {
         zIndex: "-1 !important"
       }}
     >
-      <Navbar style={{ zIndex: "-2 !important" }} props={{ ...props }} />
-      <NavigationControllerView
-        props={props}
-        roomIndex={roomIndex}
-        setRoomIndex={setRoomIndex}
-      />
+      <Navbar style={{ zIndex: "-2 !important" }} props={{ ...state }} />
+      <RoomDesignDialog />
+      <NavigationControllerView />
       <PanZoom
         id="panner"
         preventPan={(event, x, y) => {
@@ -50,14 +53,12 @@ export default function App({ props }) {
           height: "100vh",
           width: "100vw",
           zIndex: "-1",
-          background: props.rooms[roomIndex].background_color
+          background: studioState.rooms[currentRoomIndex].background_color
         }}
       >
-        {props.rooms[roomIndex].items.map((item) => (
-          <NonDraggableRoomItem
-            props={{ ...props }}
-            shadow={props.rooms[roomIndex].shadow}
-            item={item}
+        {studioState.rooms[currentRoomIndex].items.map((item, i) => (
+          <RoomItem
+            itemIndex={i}
             ref={content}
             onClose={() => {}}
             show={true}

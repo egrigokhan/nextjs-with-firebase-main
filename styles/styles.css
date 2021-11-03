@@ -1,0 +1,150 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.navbar {
+  font-family: "DM Serif Text";
+  margin-bottom: 16px;
+}
+
+.room-design-dialog-container {
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  width: 280px;
+  z-index: 99999 !important;
+  float: left;
+}
+
+.navigation-controller-view-container {
+  bottom: 16px;
+  position: absolute;
+  margin: auto;
+  left: 0px;
+  right: 0px;
+  width: 90vw;
+}
+
+.navigation-controller-view-main {
+  background-color: rgba(41, 41, 42, 0.07);
+  padding: 8px 24px;
+  border-radius: 12px;
+}
+
+.navigation-controller-view-add-room-main {
+  background-color: rgba(41, 41, 42);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-family: Inter !important;
+  color: white !important;
+  font-size: 8px !important;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+
+  border-right: 14px solid rgb(41, 41, 42);
+}
+
+.Dialog {
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  cursor: move;
+  top: 150px;
+  left: 520px;
+}
+
+.hidden {
+  display: none;
+}
+
+.DialogTitle {
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid grey;
+}
+
+.Contents {
+  border: solid 20px black;
+}
+
+.closeButton {
+  font-size: 12px;
+  width: 100px;
+  color: black;
+  border: 2px solid black;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 10px;
+  margin-left: 140px;
+  cursor: pointer;
+}
+
+.non-interactable-image {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.edit-item-dialog-container {
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  width: 280px;
+  z-index: 99999 !important;
+  position: "absolute";
+  right: "0px";
+  bottom: "0px";
+  float: right;
+}
+
+.static-dialog {
+  margin: auto;
+  margin-bottom: 32px;
+  width: 140px;
+  height: 140px;
+  background-color: white;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  background-image: linear-gradient(#ff4500, #ff4500);
+  background-size: 70% 100%;
+  background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 8px;
+  background: #29292a;
+  cursor: ew-resize;
+  transition: background 0.3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}

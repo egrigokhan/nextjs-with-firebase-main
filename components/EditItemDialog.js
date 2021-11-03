@@ -1,6 +1,6 @@
 import StaticRoomItem from "./StaticRoomItem";
 
-export default function EditItemDialog() {
+export default function EditItemDialog({ props }) {
   return (
     <div class="edit-item-dialog-container">
       <div style={{ display: "flex", flexDirection: "column" }}>

@@ -1,89 +1,127 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
+import { useStudio } from "../context/StudioContext";
 
-export default class RoomItem extends Component {
-  constructor(props) {
-    super(props);
+export default function RoomItem({ itemIndex }) {
+  const { studioState, currentRoomIndex, updateItemLocation } = useStudio();
 
-    this.state = {
-      diffX: 0,
-      diffY: 0,
-      dragging: false,
-      styles: {}
-    };
+  const [state, setState] = useState({
+    diffX: 0,
+    diffY: 0,
+    dragging: false,
+    styles: {
+      left: studioState.rooms[currentRoomIndex].items[itemIndex].position.x,
+      top: studioState.rooms[currentRoomIndex].items[itemIndex].position.y
+    }
+  });
 
-    this._dragStart = this._dragStart.bind(this);
-    this._dragging = this._dragging.bind(this);
-    this._dragEnd = this._dragEnd.bind(this);
-  }
+  useEffect(() => {
+    setState({
+      ...state,
+      styles: {
+        left: studioState.rooms[currentRoomIndex].items[itemIndex].position.x,
+        top: studioState.rooms[currentRoomIndex].items[itemIndex].position.y
+      }
+    });
+  }, [studioState, itemIndex, currentRoomIndex]);
 
-  _dragStart(e) {
+  const _dragStart = (e) => {
     console.log(e.screenX);
     console.log(e.currentTarget.getBoundingClientRect().left);
-    this.setState({
+
+    setState({
+      ...state,
       diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
       diffY: e.screenY - e.currentTarget.getBoundingClientRect().top,
       dragging: true
     });
-  }
+  };
 
-  _dragging(e) {
-    if (this.state.dragging) {
+  const _dragging = (e) => {
+    if (state.dragging) {
       const transform = document
         .getElementById("panner")
         .children[0].style.getPropertyValue("transform");
       var values = transform.split("(")[1].split(")")[0].split(",");
       console.log(values);
       var left =
-        (-parseFloat(values[4]) + (e.screenX - this.state.diffX)) /
+        (-parseFloat(values[4]) + (e.screenX - state.diffX)) /
         parseFloat(values[0]);
       var top =
-        (-parseFloat(values[5]) + (e.screenY - this.state.diffY)) /
+        (-parseFloat(values[5]) + (e.screenY - state.diffY)) /
         parseFloat(values[0]);
-      this.setState({
+      setState({
+        ...state,
         styles: {
           left: Math.round(left / 10) * 10,
           top: Math.round(top / 10) * 10
         }
       });
     }
-  }
+  };
 
-  _dragEnd() {
-    this.setState({
-      dragging: false
-    });
-  }
-
-  render() {
-    var classes = this.props.show ? "Dialog" : "Dialog hidden";
-    return (
-      <div
-        className={classes}
-        style={{
-          ...this.state.styles,
-          boxShadow: this.props.shadow ? "0px 8px 6px 0px rgba(0,0,0,0.26)" : ""
-        }}
-        onMouseDown={this._dragStart}
-        onMouseMove={this._dragging}
-        onMouseUp={this._dragEnd}
-        onMouseLeave={this._dragEnd}
-      >
-        <div
-          className="Contents"
-          onClick={() => {
-            console.log("clicked...");
-          }}
-        >
-          <img
-            class="non-interactable-image"
-            src="https://miro.medium.com/max/700/1*5AyYzOlGlv501PlJlIdZZQ.jpeg"
-            style={{
-              width: "100%",
-              height: "100%"
-            }}
-          />
-        </div>
-      </div>
+  const _dragEnd = () => {
+    setState({ ...state, dragging: false });
+    updateItemLocation(
+      state.styles.left,
+      state.styles.top,
+      currentRoomIndex,
+      itemIndex
     );
-  }
+    console.log(state);
+    console.log(itemIndex);
+  };
+
+  return (
+    <div
+      className={"Dialog"}
+      style={{
+        left: state.styles.left,
+        top: state.styles.top,
+        ...state.styles,
+        boxShadow: studioState.rooms[currentRoomIndex].shadow
+          ? "0px 8px 6px 0px rgba(0,0,0,0.26)"
+          : "",
+        backgroundColor: studioState.rooms[currentRoomIndex].items[itemIndex]
+          .matting.applied
+          ? studioState.rooms[currentRoomIndex].items[itemIndex].matting.color
+          : "white"
+      }}
+      onMouseDown={_dragStart}
+      onMouseMove={_dragging}
+      onMouseUp={_dragEnd}
+      onMouseLeave={_dragEnd}
+    >
+      <div
+        className="Contents"
+        style={{
+          padding: studioState.rooms[currentRoomIndex].items[itemIndex].matting
+            .applied
+            ? studioState.rooms[currentRoomIndex].items[itemIndex].matting
+                .percentage
+            : 0,
+          border: `solid ${
+            studioState.rooms[currentRoomIndex].items[itemIndex].frame.applied
+              ? studioState.rooms[currentRoomIndex].items[itemIndex].frame.width
+              : "0"
+          }px ${
+            studioState.rooms[currentRoomIndex].items[itemIndex].frame.applied
+              ? studioState.rooms[currentRoomIndex].items[itemIndex].frame.color
+              : ""
+          }`
+        }}
+        onClick={() => {
+          console.log("clicked...");
+        }}
+      >
+        <img
+          class="non-interactable-image"
+          src={studioState.rooms[currentRoomIndex].items[itemIndex].image_url}
+          style={{
+            width: "100%",
+            height: "100%"
+          }}
+        />
+      </div>
+    </div>
+  );
 }

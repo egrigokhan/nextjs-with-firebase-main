@@ -23,106 +23,50 @@ export default function Login({ props }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   return (
-    <Flex>
-      <Box w={500} p={4} my={12} mx="auto">
-        <Heading textAlign="center" as="h2">
-          Login
-        </Heading>
-        <FormControl isRequired>
-          <FormLabel htmlFor="email">Email address</FormLabel>
-          <Input
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            id="emailAddress"
-            value={email}
-            aria-describedby="email-helper-text"
-          />
-          <FormHelperText id="email-helper-text">
-            We'll never share your email.
-          </FormHelperText>
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            onChange={(e) => setPass(e.target.value)}
-            type="password"
-            id="pass"
-            value={pass}
-            aria-describedby="password-helper-text"
-          />
-        </FormControl>
-        <Stack justify="center" mt={6} isInline spacing={10}>
-          <Button
-            minWidth="40%"
-            variant="solid"
-            variantColor="blue"
-            isDisabled={email === "" || pass === ""}
-            onClick={async () => {
-              const userCredentials = await firebase
-                .auth()
-                .signInWithPopup(new firebase.auth.TwitterAuthProvider())
-                .then((userCredentials) => {
-                  console.log({ ...userCredentials.user });
+    <button
+      minWidth="40%"
+      variant="solid"
+      variantColor="blue"
+      isDisabled={false}
+      onClick={async () => {
+        const userCredentials = await firebase
+          .auth()
+          .signInWithPopup(new firebase.auth.TwitterAuthProvider())
+          .then((userCredentials) => {
+            console.log({ ...userCredentials.user });
 
-                  firebase
-                    .firestore()
-                    .collection("users")
-                    .doc(userCredentials.user.uid)
-                    .set(
-                      {
-                        uid: userCredentials.user.uid,
-                        email: userCredentials.user.email,
-                        name: userCredentials.user.displayName,
-                        provider:
-                          userCredentials.user.providerData[0].providerId,
-                        photoUrl: userCredentials.user.photoURL,
-                        lastSignIn: new Date()
-                      },
-                      { merge: true }
-                    );
-                })
-                .catch((error) => {
-                  const message = error.message;
-                  toast({
-                    title: "An error occurred.",
-                    description: message,
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true
-                  });
-                });
-            }}
-          >
-            Create account
-          </Button>
-          <Button
-            minWidth="40%"
-            variant="solid"
-            variantColor="green"
-            isDisabled={email === "" || pass === ""}
-            onClick={async () => {
-              await firebase
-                .auth()
-                .signInWithEmailAndPassword(email, pass)
-                .then(function (firebaseUser) {
-                  window.location.href = "/";
-                })
-                .catch(function (error) {
-                  const message = error.message;
-                  toast({
-                    title: "An error occurred.",
-                    description: message,
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true
-                  });
-                });
-            }}
-          >
-            Log in
-          </Button>
-        </Stack>
-      </Box>
-    </Flex>
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(userCredentials.user.uid)
+              .set(
+                {
+                  uid: userCredentials.user.uid,
+                  email: userCredentials.user.email,
+                  name: userCredentials.user.displayName,
+                  provider: userCredentials.user.providerData[0].providerId,
+                  photoUrl: userCredentials.user.photoURL,
+                  lastSignIn: new Date()
+                },
+                { merge: true }
+              )
+              .then(() => {
+                window.location.href = "/";
+              });
+          })
+          .catch((error) => {
+            const message = error.message;
+            toast({
+              title: "An error occurred.",
+              description: message,
+              status: "error",
+              duration: 9000,
+              isClosable: true
+            });
+          });
+      }}
+    >
+      Create account
+    </button>
   );
 }

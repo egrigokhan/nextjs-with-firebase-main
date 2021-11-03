@@ -14,7 +14,7 @@ export default function Navbar({ props }) {
             @{props.params.userId}
           </span>
         </div>
-        {false && (
+        {true && (
           <div
             style={{
               float: "right",

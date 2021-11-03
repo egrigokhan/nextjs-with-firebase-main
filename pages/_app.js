@@ -1,13 +1,12 @@
 import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import { AuthProvider } from "../auth";
+import "../styles/styles.css";
+
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider>
-      <CSSReset />
-      <AuthProvider>
-        <Component {...pageProps} />
-      </AuthProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
   );
 }
 

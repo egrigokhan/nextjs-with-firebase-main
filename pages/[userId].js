@@ -5,40 +5,17 @@ import firebaseClient from "../firebaseClient";
 import firebase from "firebase/app";
 import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
 import { useAuth } from "../auth";
+import App from "../components/App";
+import { StudioProvider } from "../context/StudioContext";
 
-// const admin = require("firebase-admin");
-
-function Studio({ session }) {
+function Studio({ props }) {
   firebaseClient();
   const { user } = useAuth();
-  if (session) {
+  if (props) {
     return (
-      <Flex>
-        <Box w={500} p={4} my={12} mx="auto">
-          <Heading as="h2" mb={12} textAlign="center">
-            Authenticated
-          </Heading>
-          <Box>
-            <Text textAlign="center">{session}</Text>
-            <Text textAlign="center" mt={8}>
-              You can now do assanything you want in our application.
-            </Text>
-          </Box>
-          <Box my={12} mx="auto" width="500px">
-            <Button
-              width="100%"
-              variant="solid"
-              variantColor="red"
-              onClick={async () => {
-                await firebase.auth().signOut();
-                window.location.href = "/";
-              }}
-            >
-              Sign out
-            </Button>
-          </Box>
-        </Box>
-      </Flex>
+      <StudioProvider state={props}>
+        <App />;
+      </StudioProvider>
     );
   } else {
     return (
@@ -56,8 +33,20 @@ export async function getServerSideProps(context) {
     console.log("token", cookies);
     const token = await verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
     const { uid, email } = token;
+    // This gets called on every request
+    // Fetch data from external API
+    const res = await fetch(
+      `https://raw.githubusercontent.com/egrigokhan/dummy-data/main/test-room.json`
+    );
+    const data = await res.json();
+
+    console.log("data", data);
+
+    // Pass data to the page via props
     return {
-      props: { session: `Your email is ${email} and your UID is ${uid}.` }
+      props: {
+        props: { ...data, params: context.params }
+      }
     };
   } catch (err) {
     console.log("err", err);
