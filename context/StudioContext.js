@@ -58,6 +58,39 @@ export const StudioProvider = ({ state, children }) => {
     console.log("room count", rooms.length);
     setCurrentRoomIndex(rooms.length - 1);
   };
+
+  const addItem = (asset, roomIndex) => {
+    const item = {
+      id: asset.id,
+      size: {
+        scale: 1
+      },
+      position: {
+        x: 400,
+        y: 100
+      },
+      image_url: asset.image_url,
+      matting: {
+        applied: 1,
+        color: "white",
+        percentage: 10
+      },
+      frame: {
+        applied: 1,
+        color_or_image: 1,
+        color: "black",
+        image: "",
+        width: 10
+      }
+    };
+
+    var studioStateCopy = studioState;
+    var items = studioStateCopy.rooms[roomIndex].items;
+    items.push(item);
+    studioStateCopy.rooms[roomIndex].items = items;
+    setStudioState({ ...studioStateCopy, dummy: true });
+  };
+
   return (
     <StudioContext.Provider
       value={{
@@ -72,7 +105,8 @@ export const StudioProvider = ({ state, children }) => {
         addRoom,
         currentItemIndex,
         setCurrentItemIndex,
-        updateItem
+        updateItem,
+        addItem
       }}
     >
       {children}

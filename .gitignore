@@ -30,5 +30,10 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# credentials
+secret.json
+shil-me-firebase-adminsdk-2xank-2dbb21fedf.json
+shil-me-firebase-adminsdk-2xank-dd16ec4acf.json
+
 # vercel
 .vercel
