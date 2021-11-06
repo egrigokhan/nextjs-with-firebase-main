@@ -2,7 +2,13 @@ import React, { Component, useState, useEffect } from "react";
 import { useStudio } from "../context/StudioContext";
 
 export default function RoomItem({ itemIndex }) {
-  const { studioState, currentRoomIndex, updateItemLocation } = useStudio();
+  const {
+    studioState,
+    currentRoomIndex,
+    updateItemLocation,
+    currentItemIndex,
+    setCurrentItemIndex
+  } = useStudio();
 
   const [state, setState] = useState({
     diffX: 0,
@@ -76,24 +82,49 @@ export default function RoomItem({ itemIndex }) {
       className={"Dialog"}
       style={{
         left: state.styles.left,
-        top: state.styles.top,
-        ...state.styles,
-        boxShadow: studioState.rooms[currentRoomIndex].shadow
-          ? "0px 8px 6px 0px rgba(0,0,0,0.26)"
-          : "",
-        backgroundColor: studioState.rooms[currentRoomIndex].items[itemIndex]
-          .matting.applied
-          ? studioState.rooms[currentRoomIndex].items[itemIndex].matting.color
-          : "white"
+        top: state.styles.top
       }}
       onMouseDown={_dragStart}
       onMouseMove={_dragging}
       onMouseUp={_dragEnd}
       onMouseLeave={_dragEnd}
     >
-      <div
-        className="Contents"
+      <img
+        class="non-interactable-image"
+        src={studioState.rooms[currentRoomIndex].items[itemIndex].image_url}
         style={{
+          width: "100%",
+          height: "100%",
+          transitionDuration: "0.2s",
+          transform: `scale(${
+            studioState.rooms[currentRoomIndex].items[itemIndex].size
+              ? studioState.rooms[currentRoomIndex].items[itemIndex].size.scale
+              : 1
+          })`,
+          boxShadow: studioState.rooms[currentRoomIndex].shadow
+            ? `0px ${
+                (8 /
+                  (studioState.rooms[currentRoomIndex].items[itemIndex].size
+                    .scale
+                    ? studioState.rooms[currentRoomIndex].items[itemIndex].size
+                        .scale
+                    : 1)) *
+                (state.dragging ? 5 : 1)
+              }px ${
+                (6 /
+                  (studioState.rooms[currentRoomIndex].items[itemIndex].size
+                    .scale
+                    ? studioState.rooms[currentRoomIndex].items[itemIndex].size
+                        .scale
+                    : 1)) *
+                (state.dragging ? 5 : 1)
+              }px 0px rgba(0,0,0,0.26)`
+            : "",
+
+          backgroundColor: studioState.rooms[currentRoomIndex].items[itemIndex]
+            .matting.applied
+            ? studioState.rooms[currentRoomIndex].items[itemIndex].matting.color
+            : "white",
           padding: studioState.rooms[currentRoomIndex].items[itemIndex].matting
             .applied
             ? studioState.rooms[currentRoomIndex].items[itemIndex].matting
@@ -110,18 +141,9 @@ export default function RoomItem({ itemIndex }) {
           }`
         }}
         onClick={() => {
-          console.log("clicked...");
+          setCurrentItemIndex(itemIndex);
         }}
-      >
-        <img
-          class="non-interactable-image"
-          src={studioState.rooms[currentRoomIndex].items[itemIndex].image_url}
-          style={{
-            width: "100%",
-            height: "100%"
-          }}
-        />
-      </div>
+      />
     </div>
   );
 }

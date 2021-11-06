@@ -1,14 +1,21 @@
+import { useRoomDesign } from "../context/RoomDesignContext";
 import { useStudio } from "../context/StudioContext";
 
 export default function RoomDesignDialog() {
-  const { studioState, currentRoomIndex, updateShadow } = useStudio();
+  const {
+    studioState,
+    currentRoomIndex,
+    updateShadow,
+    updateRoomBackground
+  } = useStudio();
+  const { BACKGROUND_COLORS } = useRoomDesign();
 
   return (
     <div class="room-design-dialog-container">
       <div style={{ display: "flex", flexDirection: "column" }}>
         <span
           style={{
-            fontSize: 14,
+            fontSize: 11,
             fontFamily: "Inter",
             fontWeight: "bold",
             marginBottom: "6px"
@@ -23,66 +30,61 @@ export default function RoomDesignDialog() {
             marginBottom: "12px"
           }}
         >
+          {BACKGROUND_COLORS.map((COLOR) => (
+            <div
+              onClick={() => {
+                updateRoomBackground(COLOR, currentRoomIndex);
+              }}
+              style={{
+                backgroundColor:
+                  studioState.rooms[currentRoomIndex].background_color == COLOR
+                    ? COLOR
+                    : "rgba(41, 41, 42, 0.07)",
+                width: 24,
+                height: 24,
+                borderRadius: 6,
+                marginRight: 6,
+                cursor: "pointer",
+                transitionDuration: "0.2s"
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: COLOR,
+                  width: 18,
+                  height: 18,
+                  borderRadius: 6,
+                  margin: "auto",
+                  marginTop: "3px",
+                  cursor: "pointer"
+                }}
+              ></div>
+            </div>
+          ))}
           <div
-            style={{
-              backgroundColor: "#FF0000",
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              marginRight: 6
+            onClick={() => {
+              var newBackgroundColor = prompt(
+                "Please enter the hex code for the color."
+              );
+              if (newBackgroundColor && newBackgroundColor != "") {
+                updateRoomBackground(newBackgroundColor, currentRoomIndex);
+              }
             }}
-          ></div>
-          <div
-            style={{
-              backgroundColor: "#2DA771",
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              marginRight: 6
-            }}
-          ></div>
-          <div
-            style={{
-              backgroundColor: "#00A1FF",
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              marginRight: 6
-            }}
-          ></div>
-          <div
-            style={{
-              backgroundColor: "#FFBD00",
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              marginRight: 6
-            }}
-          ></div>
-          <div
-            style={{
-              backgroundColor: "#C31162",
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              marginRight: 6
-            }}
-          ></div>
-          <div
             style={{
               backgroundColor: "rgba(41, 41, 42, 0.07)",
-              width: 40,
-              height: 40,
-              borderRadius: 12
+              width: 24,
+              height: 24,
+              borderRadius: 6,
+              cursor: "pointer"
             }}
           >
             <span
               style={{
                 width: "100%",
                 margin: "auto",
-                fontSize: "24px",
+                fontSize: "20px",
                 fontWeight: "bold",
-                marginTop: "5px",
+                marginTop: "0px",
                 textAlign: "center",
                 display: "block"
               }}
@@ -94,7 +96,7 @@ export default function RoomDesignDialog() {
 
         <div style={{ display: "flex", flexDirection: "row" }}>
           <span
-            style={{ fontSize: 14, fontFamily: "Inter", fontWeight: "bold" }}
+            style={{ fontSize: 11, fontFamily: "Inter", fontWeight: "bold" }}
           >
             Shadows
           </span>

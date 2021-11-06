@@ -5,7 +5,8 @@ export default function Navbar() {
     studioState,
     currentRoomIndex,
     setCurrentRoomIndex,
-    updateRoomTitle
+    updateRoomTitle,
+    addRoom
   } = useStudio();
 
   return (
@@ -15,9 +16,16 @@ export default function Navbar() {
       >
         <div
           className="navigation-controller-view-add-room-main"
-          style={{ marginLeft: "auto", marginRight: "auto" }}
+          style={{ marginLeft: "auto", marginRight: "auto", cursor: "pointer" }}
         >
-          <span style={{ fontSize: 10, fontFamily: "Inter" }}>Add Room</span>
+          <span
+            style={{ fontSize: 10, fontFamily: "Inter" }}
+            onClick={() => {
+              addRoom();
+            }}
+          >
+            Add Room
+          </span>
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -42,7 +50,9 @@ export default function Navbar() {
         <div
           onClick={() => {
             const newRoomTitle = prompt("Please rename your room.");
-            updateRoomTitle(newRoomTitle, currentRoomIndex);
+            if (newRoomTitle && newRoomTitle != "") {
+              updateRoomTitle(newRoomTitle, currentRoomIndex);
+            }
           }}
           className="navigation-controller-view-main"
         >

@@ -34,12 +34,29 @@ export default function Navbar({ props }) {
                 color: "black",
                 marginRight: "8px",
                 display: "inline-block",
-                width: "240px",
+                width: "300px",
                 padding: "8px 16px",
                 cursor: "pointer"
               }}
             >
-              https://shil.me/gokhan
+              https://shil.me/{props.params.userId}
+              <button
+                style={{
+                  float: "right",
+                  background: "none",
+                  fontWeight: "bold",
+                  border: "none",
+                  fontSize: "10px",
+                  marginTop: "auto",
+                  marginBottom: "auto",
+                  display: "block",
+                  height: "16px",
+                  color: "black",
+                  cursor: "pointer"
+                }}
+              >
+                Add to Twitter bio
+              </button>
             </span>
             <button
               style={{
@@ -52,7 +69,8 @@ export default function Navbar({ props }) {
                 borderRadius: "8px",
                 color: "white",
                 marginRight: "0px",
-                display: "inline-block"
+                display: "inline-block",
+                cursor: "pointer"
               }}
             >
               Save Changes

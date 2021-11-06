@@ -7,6 +7,8 @@ import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
 import { useAuth } from "../auth";
 import App from "../components/App";
 import { StudioProvider } from "../context/StudioContext";
+import { RoomDesignProvider } from "../context/RoomDesignContext";
+import { OpenSeaProvider } from "../context/OpenSeaContext";
 
 function Studio({ props }) {
   firebaseClient();
@@ -14,7 +16,11 @@ function Studio({ props }) {
   if (props) {
     return (
       <StudioProvider state={props}>
-        <App />;
+        <OpenSeaProvider>
+          <RoomDesignProvider>
+            <App />;
+          </RoomDesignProvider>
+        </OpenSeaProvider>
       </StudioProvider>
     );
   } else {

@@ -8,6 +8,8 @@ import NavigationControllerView from "./NavigationControllerView";
 import RoomItem from "./RoomItem";
 import StaticRoomItem from "./StaticRoomItem";
 import NonDraggableRoomItem from "./NonDraggableRoomItem";
+import AddItemButton from "./AddItemButton";
+import AddItem from "./AddItem";
 
 import { useStudio } from "../context/StudioContext";
 
@@ -33,9 +35,15 @@ export default function App() {
     >
       <Navbar style={{ zIndex: "-2 !important" }} props={{ ...state }} />
       <RoomDesignDialog />
+      <EditItemDialog />
       <NavigationControllerView />
+      <AddItemButton />
+      <AddItem />
       <PanZoom
         id="panner"
+        onHold={() => {
+          console.log("long");
+        }}
         preventPan={(event, x, y) => {
           if (event.target.className === "non-interactable-image") {
             return true;
@@ -54,6 +62,8 @@ export default function App() {
           width: "100vw",
           zIndex: "-1",
           background: studioState.rooms[currentRoomIndex].background_color
+            ? studioState.rooms[currentRoomIndex].background_color
+            : "beige"
         }}
       >
         {studioState.rooms[currentRoomIndex].items.map((item, i) => (
