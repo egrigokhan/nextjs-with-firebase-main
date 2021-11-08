@@ -18,10 +18,28 @@ body {
 }
 
 .add-item-button-container {
-  background-color: rgb(41, 41, 42);
-  border-radius: 32px;
+  cursor: pointer;
+  background-color: rgb(41, 41, 42, 0.07);
+  border-radius: 16px;
   width: 64px;
   height: 64px;
+  margin-top: auto;
+  margin-right: 16px;
+  transition-duration: 0.1s;
+  color: black;
+}
+
+.add-item-button-container:hover {
+  background-color: rgb(41, 41, 42);
+  border-radius: 16px;
+  width: 64px;
+  height: 64px;
+  margin-top: auto;
+  margin-right: 16px;
+  color: white;
+}
+
+.add-item-container {
   z-index: 99999 !important;
   float: left;
   position: absolute;
@@ -134,9 +152,9 @@ body {
 
 input[type="range"] {
   -webkit-appearance: none;
-  height: 10px;
+  height: 7px;
   background: rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
+  border-radius: 3px;
   background-image: linear-gradient(#ff4500, #ff4500);
   background-size: 70% 100%;
   background-repeat: no-repeat;
@@ -144,9 +162,11 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 24px;
-  width: 24px;
-  border-radius: 8px;
+  height: 12px;
+  width: 12px;
+  border-radius: 4px;
+  position: relative;
+  top: -0.2px;
   background: #29292a;
   cursor: ew-resize;
   transition: background 0.3s ease-in-out;

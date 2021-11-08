@@ -10,7 +10,7 @@ export default function EditItemDialog({ itemIndex }) {
     updateItem
   } = useStudio();
 
-  const { MATTING_COLORS } = useRoomDesign();
+  const { MATTING_COLORS, FRAME_COLORS } = useRoomDesign();
 
   useEffect(() => {
     if (
@@ -29,10 +29,20 @@ export default function EditItemDialog({ itemIndex }) {
     ) {
       setSize(studioState.rooms[currentRoomIndex].items[currentItemIndex].size);
     }
+
+    if (
+      studioState.rooms[currentRoomIndex].items[currentItemIndex] &&
+      studioState.rooms[currentRoomIndex].items[currentItemIndex].frame
+    ) {
+      setFrame(
+        studioState.rooms[currentRoomIndex].items[currentItemIndex].frame
+      );
+    }
   }, [studioState, currentRoomIndex, currentItemIndex]);
 
   const [matting, setMatting] = useState({});
   const [size, setSize] = useState({});
+  const [frame, setFrame] = useState({});
 
   if (
     studioState.rooms[currentRoomIndex] &&
@@ -58,16 +68,76 @@ export default function EditItemDialog({ itemIndex }) {
             itemIndex={itemIndex}
             style={{ marginBottom: "32px" }}
           />
-          <span
+          <div
             style={{
-              fontSize: 11,
-              fontFamily: "Inter",
-              fontWeight: "bold",
-              marginBottom: "6px"
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "12px"
             }}
           >
-            Frames
-          </span>
+            <div style={{ flexDirection: "row", display: "flex" }}>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block"
+                }}
+              >
+                Frame
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block",
+                  marginRight: "0px",
+                  marginLeft: "auto"
+                }}
+              >
+                {
+                  studioState.rooms[currentRoomIndex].items[currentItemIndex]
+                    .frame.width
+                }
+              </span>
+            </div>
+
+            <input
+              type="range"
+              min={0}
+              max={50}
+              step={1}
+              value={frame.width ? frame.width.toFixed(2) : 0}
+              onChange={(e) => {
+                setSize({
+                  ...size,
+                  scale: `${parseFloat(e.target.value)}%`
+                });
+                updateItem(
+                  {
+                    frame: {
+                      ...studioState.rooms[currentRoomIndex].items[
+                        currentItemIndex
+                      ].frame,
+                      width: parseFloat(e.target.value),
+                      applied: parseFloat(e.target.value) > 0
+                    }
+                  },
+                  currentItemIndex,
+                  currentRoomIndex
+                );
+              }}
+              style={{
+                marginLeft: "0px",
+                marginRight: "0px",
+                background: "rgba(41, 41, 42, 0.07)",
+                border: "none"
+              }}
+            />
+          </div>
           <div
             style={{
               display: "flex",
@@ -75,13 +145,29 @@ export default function EditItemDialog({ itemIndex }) {
               marginBottom: "12px"
             }}
           >
-            {MATTING_COLORS.map((COLOR) => (
+            {FRAME_COLORS.map((COLOR) => (
               <div
                 onClick={() => {
-                  updateItem(COLOR, currentRoomIndex);
+                  setFrame({ ...matting, color: COLOR });
+                  updateItem(
+                    {
+                      frame: {
+                        ...studioState.rooms[currentRoomIndex].items[
+                          currentItemIndex
+                        ].frame,
+                        color: COLOR
+                      }
+                    },
+                    currentItemIndex,
+                    currentRoomIndex
+                  );
                 }}
                 style={{
-                  backgroundColor: "rgba(41, 41, 42, 0.07)",
+                  backgroundColor:
+                    studioState.rooms[currentRoomIndex].items[currentItemIndex]
+                      .frame.color == COLOR
+                      ? COLOR
+                      : "rgb(41, 41, 42, 0.07)",
                   width: 24,
                   height: 24,
                   borderRadius: 6,
@@ -90,9 +176,6 @@ export default function EditItemDialog({ itemIndex }) {
                 }}
               >
                 <div
-                  onClick={() => {
-                    updateItem(COLOR, currentRoomIndex);
-                  }}
                   style={{
                     backgroundColor: COLOR,
                     width: 18,
@@ -111,7 +194,19 @@ export default function EditItemDialog({ itemIndex }) {
                   "Please enter the hex code for the color."
                 );
                 if (newBackgroundColor && newBackgroundColor != "") {
-                  updateItem(newBackgroundColor, currentRoomIndex);
+                  setFrame({ ...frame, color: newBackgroundColor });
+                  updateItem(
+                    {
+                      frame: {
+                        ...studioState.rooms[currentRoomIndex].items[
+                          currentItemIndex
+                        ].frame,
+                        color: newBackgroundColor
+                      }
+                    },
+                    currentItemIndex,
+                    currentRoomIndex
+                  );
                 }
               }}
               style={{
@@ -145,17 +240,36 @@ export default function EditItemDialog({ itemIndex }) {
               marginBottom: "12px"
             }}
           >
-            <span
-              style={{
-                fontSize: 11,
-                fontFamily: "Inter",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                display: "block"
-              }}
-            >
-              Matting
-            </span>
+            <div style={{ flexDirection: "row", display: "flex" }}>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block"
+                }}
+              >
+                Matting
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block",
+                  marginRight: "0px",
+                  marginLeft: "auto"
+                }}
+              >
+                {
+                  studioState.rooms[currentRoomIndex].items[currentItemIndex]
+                    .matting.percentage
+                }
+              </span>
+            </div>
+
             <input
               type="range"
               value={matting.percentage}
@@ -187,16 +301,6 @@ export default function EditItemDialog({ itemIndex }) {
             />
           </div>
 
-          <span
-            style={{
-              fontSize: 11,
-              fontFamily: "Inter",
-              fontWeight: "bold",
-              marginBottom: "6px"
-            }}
-          >
-            Matting Color
-          </span>
           <div
             style={{
               display: "flex",
@@ -299,23 +403,40 @@ export default function EditItemDialog({ itemIndex }) {
               marginBottom: "32px"
             }}
           >
-            <span
-              style={{
-                fontSize: 11,
-                fontFamily: "Inter",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                display: "block"
-              }}
-            >
-              Scale
-            </span>
+            <div style={{ flexDirection: "row", display: "flex" }}>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block"
+                }}
+              >
+                Scale
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block",
+                  marginRight: "0px",
+                  marginLeft: "auto"
+                }}
+              >
+                {studioState.rooms[currentRoomIndex].items[
+                  currentItemIndex
+                ].size.scale.toFixed(2)}
+              </span>
+            </div>
             <input
               type="range"
               min={2}
               max={100}
-              step={0.01}
-              value={size.scale ? 10 * size.scale : 10}
+              step={0.1}
+              value={(size.scale ? 10 * size.scale : 10).toFixed(2)}
               onChange={(e) => {
                 setSize({
                   ...size,

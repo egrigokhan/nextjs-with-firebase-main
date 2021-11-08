@@ -1,4 +1,5 @@
 import { useStudio } from "../context/StudioContext";
+import { useRoomDesign } from "../context/RoomDesignContext";
 
 export default function Navbar() {
   const {
@@ -9,25 +10,33 @@ export default function Navbar() {
     addRoom
   } = useStudio();
 
+  const { isInPreview } = useRoomDesign();
+
   return (
     <div class="navigation-controller-view-container">
-      <div
-        style={{ display: "flex", flexDirection: "row", marginBottom: "8px" }}
-      >
+      {!isInPreview && (
         <div
-          className="navigation-controller-view-add-room-main"
-          style={{ marginLeft: "auto", marginRight: "auto", cursor: "pointer" }}
+          style={{ display: "flex", flexDirection: "row", marginBottom: "8px" }}
         >
-          <span
-            style={{ fontSize: 10, fontFamily: "Inter" }}
-            onClick={() => {
-              addRoom();
+          <div
+            className="navigation-controller-view-add-room-main"
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              cursor: "pointer"
             }}
           >
-            Add Room
-          </span>
+            <span
+              style={{ fontSize: 10, fontFamily: "Inter" }}
+              onClick={() => {
+                addRoom();
+              }}
+            >
+              Add Room
+            </span>
+          </div>
         </div>
-      </div>
+      )}
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           class="arrow-left"

@@ -19,11 +19,26 @@ export const RoomDesignProvider = ({ state, children }) => {
     "#C31162"
   ]);
 
+  const [FRAME_COLORS, setFRAME_COLORS] = useState([
+    "#FF0000",
+    "#2DA771",
+    "#00A1FF",
+    "#FFBD00",
+    "#C31162"
+  ]);
+
+  const [showSelectItemDialog, setShowSelectItemDialog] = useState(false);
+  const [isInPreview, setIsInPreview] = useState(false);
   return (
     <RoomDesignContext.Provider
       value={{
         BACKGROUND_COLORS,
-        MATTING_COLORS
+        MATTING_COLORS,
+        FRAME_COLORS,
+        showSelectItemDialog,
+        setShowSelectItemDialog,
+        isInPreview,
+        setIsInPreview
       }}
     >
       {children}

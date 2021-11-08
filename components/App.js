@@ -12,9 +12,11 @@ import AddItemButton from "./AddItemButton";
 import AddItem from "./AddItem";
 
 import { useStudio } from "../context/StudioContext";
+import { useRoomDesign } from "../context/RoomDesignContext";
 
 export default function App() {
   const { studioState, currentRoomIndex } = useStudio();
+  const { isInPreview } = useRoomDesign();
   var content = useRef(null);
 
   const [state, setState] = useState(studioState);
@@ -34,11 +36,10 @@ export default function App() {
       }}
     >
       <Navbar style={{ zIndex: "-2 !important" }} props={{ ...state }} />
-      <RoomDesignDialog />
-      <EditItemDialog />
+      {!isInPreview && <RoomDesignDialog />}
+      {!isInPreview && <EditItemDialog />}
       <NavigationControllerView />
-      <AddItemButton />
-      <AddItem />
+      {!isInPreview && <AddItem />}
       <PanZoom
         id="panner"
         onHold={() => {

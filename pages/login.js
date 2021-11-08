@@ -58,9 +58,9 @@ export default function Login({ props }) {
                 console.log(walletAddress);
                 console.log("here");
                 createUser({
-                  uid: "123456",
-                  customURL: customURL,
-                  walletAddress: walletAddress
+                  uid: userCredentials.user.uid,
+                  custom_url: customURL,
+                  wallet_address: walletAddress
                 })
                   .then(async (res) => {
                     console.log("success");
