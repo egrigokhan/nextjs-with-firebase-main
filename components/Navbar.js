@@ -1,8 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useRoomDesign } from "../context/RoomDesignContext";
+import { useAPI } from "../context/APIContext";
+import { useStudio } from "../context/StudioContext";
+
 export default function Navbar({ props }) {
+  const {
+    studioState,
+    setStudioState,
+    unsavedChanges,
+    setUnsavedChanges
+  } = useStudio();
   const { isInPreview, setIsInPreview } = useRoomDesign();
+  const { createUser, updateStudio } = useAPI();
   return (
     <div class="navbar">
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -49,7 +60,7 @@ export default function Navbar({ props }) {
                   backgroundColor: "rgba(41, 41, 42, 0.07)",
                   fontFamily: "Inter",
                   fontWeight: "regular",
-                  fontSize: "14px",
+                  fontSize: "13px",
                   border: "none",
                   padding: "8px",
                   borderRadius: "8px",
@@ -78,28 +89,41 @@ export default function Navbar({ props }) {
                     cursor: "pointer"
                   }}
                 >
-                  Add to Twitter bio
+                  <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />
                 </button>
               </span>
             )}
 
             {!isInPreview && (
               <button
+                onClick={() => {
+                  console.log("updateStudio");
+                  updateStudio({ studioState: studioState })
+                    .then(async (res) => {
+                      console.log("success changes");
+                      setUnsavedChanges(false);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
                 style={{
-                  backgroundColor: "rgba(41, 41, 42)",
+                  backgroundColor: unsavedChanges
+                    ? "rgba(41, 41, 42)"
+                    : "rgba(41, 41, 42, 0.07)",
                   fontFamily: "Inter",
                   fontWeight: "bold",
-                  fontSize: "14px",
+                  fontSize: "11px",
                   border: "none",
                   padding: "8px",
                   borderRadius: "8px",
-                  color: "white",
+                  color: unsavedChanges ? "white" : "black",
                   marginRight: "0px",
                   display: "inline-block",
                   cursor: "pointer"
                 }}
               >
-                Save Changes
+                {unsavedChanges ? "Save Changes" : "All changes saves"}
               </button>
             )}
           </div>

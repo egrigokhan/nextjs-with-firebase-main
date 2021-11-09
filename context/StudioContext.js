@@ -6,6 +6,12 @@ export const StudioProvider = ({ state, children }) => {
   const [studioState, setStudioState] = useState(state);
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
+
+  useEffect(() => {
+    console.log("change in room");
+    setUnsavedChanges(true);
+  }, [studioState]);
 
   const updateItemLocation = (x, y, roomIndex, itemIndex) => {
     var studioStateCopy = studioState;
@@ -63,7 +69,9 @@ export const StudioProvider = ({ state, children }) => {
     const item = {
       id: asset.id,
       size: {
-        scale: 1
+        scale: 1,
+        width: 100,
+        height: "auto"
       },
       position: {
         x: 400,
@@ -106,7 +114,9 @@ export const StudioProvider = ({ state, children }) => {
         currentItemIndex,
         setCurrentItemIndex,
         updateItem,
-        addItem
+        addItem,
+        unsavedChanges,
+        setUnsavedChanges
       }}
     >
       {children}

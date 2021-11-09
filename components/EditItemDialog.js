@@ -41,7 +41,11 @@ export default function EditItemDialog({ itemIndex }) {
   }, [studioState, currentRoomIndex, currentItemIndex]);
 
   const [matting, setMatting] = useState({});
-  const [size, setSize] = useState({});
+  const [keepAspectRatio, setKeepAspectRatio] = useState(true);
+  const [size, setSize] = useState({
+    height: "auto",
+    width: 100
+  });
   const [frame, setFrame] = useState({});
 
   if (
@@ -52,7 +56,14 @@ export default function EditItemDialog({ itemIndex }) {
   ) {
     return (
       <div class="edit-item-dialog-container">
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            overflowY: "scroll",
+            maxHeight: "calc(100vh - 128px)"
+          }}
+        >
           <span
             style={{
               fontSize: 11,
@@ -107,10 +118,10 @@ export default function EditItemDialog({ itemIndex }) {
 
             <input
               type="range"
-              min={0}
+              min={1}
               max={50}
-              step={1}
-              value={frame.width ? frame.width.toFixed(2) : 0}
+              step={0.1}
+              value={frame.width ? frame.width : 0}
               onChange={(e) => {
                 setSize({
                   ...size,
@@ -400,7 +411,7 @@ export default function EditItemDialog({ itemIndex }) {
             style={{
               display: "flex",
               flexDirection: "column",
-              marginBottom: "32px"
+              marginBottom: "8px"
             }}
           >
             <div style={{ flexDirection: "row", display: "flex" }}>
@@ -413,7 +424,7 @@ export default function EditItemDialog({ itemIndex }) {
                   display: "block"
                 }}
               >
-                Scale
+                Width
               </span>
               <span
                 style={{
@@ -426,21 +437,22 @@ export default function EditItemDialog({ itemIndex }) {
                   marginLeft: "auto"
                 }}
               >
-                {studioState.rooms[currentRoomIndex].items[
-                  currentItemIndex
-                ].size.scale.toFixed(2)}
+                {
+                  studioState.rooms[currentRoomIndex].items[currentItemIndex]
+                    .size.width
+                }
               </span>
             </div>
             <input
               type="range"
-              min={2}
-              max={100}
-              step={0.1}
-              value={(size.scale ? 10 * size.scale : 10).toFixed(2)}
+              min={10}
+              max={500}
+              step={1}
+              value={size.width ? size.width : 10}
               onChange={(e) => {
                 setSize({
                   ...size,
-                  scale: parseFloat(e.target.value) / 10
+                  width: parseFloat(e.target.value)
                 });
                 updateItem(
                   {
@@ -448,7 +460,8 @@ export default function EditItemDialog({ itemIndex }) {
                       ...studioState.rooms[currentRoomIndex].items[
                         currentItemIndex
                       ].size,
-                      scale: parseFloat(e.target.value) / 10
+                      width: parseFloat(e.target.value),
+                      height: keepAspectRatio ? "auto" : size.height
                     }
                   },
                   currentItemIndex,
@@ -462,6 +475,103 @@ export default function EditItemDialog({ itemIndex }) {
                 border: "none"
               }}
             />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "8px"
+            }}
+          >
+            <div style={{ flexDirection: "row", display: "flex" }}>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block"
+                }}
+              >
+                Height
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: "Inter",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  display: "block",
+                  marginRight: "0px",
+                  marginLeft: "auto"
+                }}
+              >
+                {
+                  studioState.rooms[currentRoomIndex].items[currentItemIndex]
+                    .size.height
+                }
+              </span>
+            </div>
+            <input
+              type="range"
+              min={10}
+              max={500}
+              step={1}
+              value={size.height ? size.height : 10}
+              onChange={(e) => {
+                setSize({
+                  ...size,
+                  height: parseFloat(e.target.value)
+                });
+                updateItem(
+                  {
+                    size: {
+                      ...studioState.rooms[currentRoomIndex].items[
+                        currentItemIndex
+                      ].size,
+                      height: parseFloat(e.target.value),
+                      width: keepAspectRatio ? "auto" : size.width
+                    }
+                  },
+                  currentItemIndex,
+                  currentRoomIndex
+                );
+              }}
+              style={{
+                marginLeft: "0px",
+                marginRight: "0px",
+                background: "rgba(41, 41, 42, 0.07)",
+                border: "none"
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginBottom: "32px"
+            }}
+          >
+            <span
+              style={{ fontSize: 11, fontFamily: "Inter", fontWeight: "bold" }}
+            >
+              Keep original aspect ratio
+            </span>
+            {studioState.rooms[currentRoomIndex] && (
+              <input
+                type="checkbox"
+                checked={keepAspectRatio}
+                onChange={(e) => {
+                  setKeepAspectRatio(!keepAspectRatio);
+                  setSize({
+                    ...size,
+                    height: "auto"
+                  });
+                }}
+                style={{ marginLeft: "auto" }}
+              />
+            )}
           </div>
           <div>
             <button

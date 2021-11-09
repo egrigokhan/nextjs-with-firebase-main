@@ -29,6 +29,7 @@ export const checkIfUserAuthorizedForRoom = async (token, roomUrl) => {
     return null;
   } else {
     const room = rooms.docs[0].data();
+    console.log("ROOMS");
     if (room.custom_url == roomUrl && room.user_id == token.uid) {
       return room;
     } else {

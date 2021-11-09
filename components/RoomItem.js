@@ -93,14 +93,21 @@ export default function RoomItem({ itemIndex }) {
         class="non-interactable-image"
         src={studioState.rooms[currentRoomIndex].items[itemIndex].image_url}
         style={{
-          width: "100%",
-          height: "100%",
+          width: studioState.rooms[currentRoomIndex].items[itemIndex].size.width
+            ? studioState.rooms[currentRoomIndex].items[itemIndex].size.width
+            : "100%",
+          height: studioState.rooms[currentRoomIndex].items[itemIndex].size
+            .height
+            ? studioState.rooms[currentRoomIndex].items[itemIndex].size.height
+            : "100%",
           transitionDuration: "0.2s",
+          /*
           transform: `scale(${
             studioState.rooms[currentRoomIndex].items[itemIndex].size
               ? studioState.rooms[currentRoomIndex].items[itemIndex].size.scale
               : 1
           })`,
+          */
           boxShadow: studioState.rooms[currentRoomIndex].shadow
             ? `0px ${
                 (8 /

@@ -14,10 +14,22 @@ export const APIProvider = ({ state, children }) => {
     });
   };
 
+  const updateStudio = (data) => {
+    console.log("updateStudio");
+    return fetch("/api/studio/saveRoom", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+  };
+
   return (
     <APIContext.Provider
       value={{
-        createUser
+        createUser,
+        updateStudio
       }}
     >
       {children}
