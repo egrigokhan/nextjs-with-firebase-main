@@ -16,3 +16,23 @@ export const verifyIdToken = (token) => {
       throw error;
     });
 };
+
+export const checkIfUserAuthorizedForRoom = async (token, roomUrl) => {
+  const fs = admin.firestore();
+
+  const rooms = await fs
+    .collection("rooms")
+    .where("custom_url", "==", roomUrl)
+    .get();
+
+  if (rooms.docs.length != 1) {
+    return null;
+  } else {
+    const room = rooms.docs[0].data();
+    if (room.custom_url == roomUrl && room.user_id == token.uid) {
+      return room;
+    } else {
+      return null;
+    }
+  }
+};

@@ -1,6 +1,6 @@
 import React from "react";
 import nookies from "nookies";
-import { verifyIdToken } from "../firebaseAdmin";
+import { verifyIdToken, checkIfUserAuthorizedForRoom } from "../firebaseAdmin";
 import firebaseClient from "../firebaseClient";
 import firebase from "firebase/app";
 import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
@@ -18,7 +18,7 @@ function Studio({ props }) {
       <StudioProvider state={props}>
         <OpenSeaProvider>
           <RoomDesignProvider>
-            <App />;
+            <App />
           </RoomDesignProvider>
         </OpenSeaProvider>
       </StudioProvider>
@@ -32,32 +32,40 @@ function Studio({ props }) {
   }
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req, query, params, ...context }) {
   try {
     console.log("here");
-    const cookies = nookies.get(context);
+    const cookies = nookies.get({ req, query, params, ...context });
     console.log("token", cookies);
     const token = await verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
-    const { uid, email } = token;
+
+    console.log(req.url);
+    const room = await checkIfUserAuthorizedForRoom(
+      token,
+      req.url.replace("/", "")
+    );
+
+    // const { uid, email } = token;
     // This gets called on every request
     // Fetch data from external API
-    const res = await fetch(
-      `https://raw.githubusercontent.com/egrigokhan/dummy-data/main/test-room.json`
-    );
-    const data = await res.json();
+    // const res_ = await fetch(
+    //   `https://raw.githubusercontent.com/egrigokhan/dummy-data/main/test-room.json`
+    // );
+    // const data = await res_.json();
 
-    console.log("data", data);
+    if (room) {
+      console.log("room", room);
 
-    // Pass data to the page via props
-    return {
-      props: {
-        props: { ...data, params: context.params }
-      }
-    };
+      // Pass data to the page via props
+      return {
+        props: {
+          props: { ...room, params: params }
+        }
+      };
+    } else {
+      return { props: { session: "" } };
+    }
   } catch (err) {
-    console.log("err", err);
-    context.res.writeHead(302, { Location: "/login" });
-    context.res.end();
     return { props: { session: "" } };
   }
 }
