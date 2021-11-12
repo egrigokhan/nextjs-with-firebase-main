@@ -7,7 +7,8 @@ export default function EditItemDialog({ itemIndex }) {
     studioState,
     currentRoomIndex,
     currentItemIndex,
-    updateItem
+    updateItem,
+    removeItem
   } = useStudio();
 
   const { MATTING_COLORS, FRAME_COLORS } = useRoomDesign();
@@ -585,6 +586,9 @@ export default function EditItemDialog({ itemIndex }) {
                 width: "100%",
                 borderRadius: "8px",
                 color: "red"
+              }}
+              onClick={() => {
+                removeItem(currentRoomIndex, currentItemIndex);
               }}
             >
               Remove Item

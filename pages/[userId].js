@@ -10,7 +10,7 @@ import { StudioProvider } from "../context/StudioContext";
 import { RoomDesignProvider } from "../context/RoomDesignContext";
 import { OpenSeaProvider } from "../context/OpenSeaContext";
 
-function Studio({ props }) {
+function Studio({ props, error }) {
   firebaseClient();
   const { user } = useAuth();
   if (props) {
@@ -24,11 +24,19 @@ function Studio({ props }) {
       </StudioProvider>
     );
   } else {
-    return (
-      <Box>
-        <Text>loading</Text>
-      </Box>
-    );
+    if (error) {
+      return (
+        <Box>
+          <Text>{error.message}</Text>
+        </Box>
+      );
+    } else {
+      return (
+        <Box>
+          <Text>loading</Text>
+        </Box>
+      );
+    }
   }
 }
 
@@ -63,7 +71,12 @@ export async function getServerSideProps({ req, query, params, ...context }) {
         }
       };
     } else {
-      return { props: { session: "" } };
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false
+        }
+      };
     }
   } catch (err) {
     return { props: { session: "" } };

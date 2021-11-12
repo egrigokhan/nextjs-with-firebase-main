@@ -34,12 +34,13 @@ export default function Navbar({ props }) {
             style={{
               float: "right",
               marginRight: "0px",
-              marginLeft: "auto"
+              marginLeft: "auto",
+              display: "inherit"
             }}
           >
             {isInPreview ? (
               <FontAwesomeIcon
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", height: "100%" }}
                 onClick={() => {
                   setIsInPreview(false);
                 }}
@@ -47,7 +48,7 @@ export default function Navbar({ props }) {
               />
             ) : (
               <FontAwesomeIcon
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", height: "100%" }}
                 onClick={() => {
                   setIsInPreview(true);
                 }}
@@ -108,6 +109,7 @@ export default function Navbar({ props }) {
                     });
                 }}
                 style={{
+                  transitionDuration: "0.3s",
                   backgroundColor: unsavedChanges
                     ? "rgba(41, 41, 42)"
                     : "rgba(41, 41, 42, 0.07)",
@@ -123,7 +125,7 @@ export default function Navbar({ props }) {
                   cursor: "pointer"
                 }}
               >
-                {unsavedChanges ? "Save Changes" : "All changes saves"}
+                {unsavedChanges ? "Save Changes" : "All changes saved"}
               </button>
             )}
           </div>

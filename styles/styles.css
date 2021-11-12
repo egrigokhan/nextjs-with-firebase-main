@@ -53,6 +53,7 @@ body {
   left: 0px;
   right: 0px;
   width: 90vw;
+  z-index: 99900 !important;
 }
 
 .navigation-controller-view-main {

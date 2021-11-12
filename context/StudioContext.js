@@ -8,33 +8,39 @@ export const StudioProvider = ({ state, children }) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
 
+  /*
   useEffect(() => {
     console.log("change in room");
     setUnsavedChanges(true);
   }, [studioState]);
+  */
 
   const updateItemLocation = (x, y, roomIndex, itemIndex) => {
     var studioStateCopy = studioState;
     studioStateCopy.rooms[roomIndex].items[itemIndex].position = { x: x, y: y };
     setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
   };
 
   const updateShadow = (shadow, roomIndex) => {
     var studioStateCopy = studioState;
     studioStateCopy.rooms[roomIndex].shadow = shadow;
     setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
   };
 
   const updateRoomTitle = (newTitle, roomIndex) => {
     var studioStateCopy = studioState;
     studioStateCopy.rooms[roomIndex].title = newTitle;
     setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
   };
 
   const updateRoomBackground = (newBackground, roomIndex) => {
     var studioStateCopy = studioState;
     studioStateCopy.rooms[roomIndex].background_color = newBackground;
     setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
   };
 
   const updateItem = (item, itemIndex, roomIndex) => {
@@ -46,6 +52,7 @@ export const StudioProvider = ({ state, children }) => {
     };
     console.log(studioStateCopy.rooms[roomIndex].items[itemIndex]);
     setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
   };
   const saveChanges = () => {};
 
@@ -63,6 +70,7 @@ export const StudioProvider = ({ state, children }) => {
     setStudioState({ ...studioStateCopy, rooms: rooms, dummy: true });
     console.log("room count", rooms.length);
     setCurrentRoomIndex(rooms.length - 1);
+    setUnsavedChanges(true);
   };
 
   const addItem = (asset, roomIndex) => {
@@ -97,6 +105,16 @@ export const StudioProvider = ({ state, children }) => {
     items.push(item);
     studioStateCopy.rooms[roomIndex].items = items;
     setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
+  };
+
+  const removeItem = (roomIndex, itemIndex) => {
+    var studioStateCopy = studioState;
+    var items = studioStateCopy.rooms[roomIndex].items;
+    items.splice(itemIndex, 1);
+    studioStateCopy.rooms[roomIndex].items = items;
+    setStudioState({ ...studioStateCopy, dummy: true });
+    setUnsavedChanges(true);
   };
 
   return (
@@ -116,7 +134,8 @@ export const StudioProvider = ({ state, children }) => {
         updateItem,
         addItem,
         unsavedChanges,
-        setUnsavedChanges
+        setUnsavedChanges,
+        removeItem
       }}
     >
       {children}
