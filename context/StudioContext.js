@@ -75,6 +75,7 @@ export const StudioProvider = ({ state, children }) => {
 
   const addItem = (asset, roomIndex) => {
     const item = {
+      opensea: asset,
       id: asset.id,
       size: {
         scale: 1,

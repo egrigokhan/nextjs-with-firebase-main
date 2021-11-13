@@ -56,3 +56,20 @@ export const readRoomForUser = async (token) => {
     return room;
   }
 };
+
+export const readStaticRoomForUser = async (customURL) => {
+  const fs = admin.firestore();
+
+  const rooms = await fs
+    .collection("rooms")
+    .where("custom_url", "==", customURL)
+    .get();
+
+  if (rooms.docs.length != 1) {
+    return null;
+  } else {
+    const room = rooms.docs[0].data();
+    room["id"] = rooms.docs[0].id;
+    return room;
+  }
+};

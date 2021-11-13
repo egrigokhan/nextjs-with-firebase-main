@@ -1,11 +1,11 @@
 import React from "react";
 import nookies from "nookies";
-import { verifyIdToken, readRoomForUser } from "../firebaseAdmin";
+import { verifyIdToken, readStaticRoomForUser } from "../firebaseAdmin";
 import firebaseClient from "../firebaseClient";
 import firebase from "firebase/app";
 import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
 import { useAuth } from "../auth";
-import App from "../components/App";
+import StaticApp from "../components/StaticApp";
 import { StudioProvider } from "../context/StudioContext";
 import { RoomDesignProvider } from "../context/RoomDesignContext";
 import { OpenSeaProvider } from "../context/OpenSeaContext";
@@ -18,7 +18,7 @@ function Studio({ props, error }) {
       <StudioProvider state={props}>
         <OpenSeaProvider>
           <RoomDesignProvider>
-            <App />
+            <StaticApp />
           </RoomDesignProvider>
         </OpenSeaProvider>
       </StudioProvider>
@@ -47,8 +47,8 @@ export async function getServerSideProps({ req, query, params, ...context }) {
     console.log("token", cookies);
     const token = await verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
 
-    console.log(req.url);
-    const room = await readRoomForUser(token);
+    console.log("URL", req.url);
+    const room = await readStaticRoomForUser(req.url.replace("/", ""));
 
     // const { uid, email } = token;
     // This gets called on every request
