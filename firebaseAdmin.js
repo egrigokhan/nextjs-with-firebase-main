@@ -31,9 +31,28 @@ export const checkIfUserAuthorizedForRoom = async (token, roomUrl) => {
     const room = rooms.docs[0].data();
     console.log("ROOMS");
     if (room.custom_url == roomUrl && room.user_id == token.uid) {
+      room["id"] = rooms.docs[0].id;
       return room;
     } else {
       return null;
     }
+  }
+};
+
+export const readRoomForUser = async (token) => {
+  const fs = admin.firestore();
+
+  const rooms = await fs
+    .collection("rooms")
+    .where("user_id", "==", token.uid)
+    .get();
+
+  if (rooms.docs.length != 1) {
+    return null;
+  } else {
+    const room = rooms.docs[0].data();
+    room["id"] = rooms.docs[0].id;
+    console.log("ROOMS");
+    return room;
   }
 };

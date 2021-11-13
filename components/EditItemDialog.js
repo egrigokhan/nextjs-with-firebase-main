@@ -72,9 +72,7 @@ export default function EditItemDialog({ itemIndex }) {
               fontWeight: "bold",
               marginBottom: "32px"
             }}
-          >
-            Edit Item
-          </span>
+          ></span>
           <StaticRoomItem
             show={true}
             itemIndex={itemIndex}

@@ -1,6 +1,7 @@
 import {
   verifyIdToken,
-  checkIfUserAuthorizedForRoom
+  checkIfUserAuthorizedForRoom,
+  readRoomForUser
 } from "../../../firebaseAdmin";
 import nookies from "nookies";
 
@@ -15,7 +16,7 @@ export default async (req, res) => {
   }
 
   const db = admin.firestore();
-
+  console.log("asdasds");
   try {
     console.log("here");
     const cookies = nookies.get({ req, res });
@@ -25,17 +26,12 @@ export default async (req, res) => {
       .verifyIdToken(cookies["firebase-token"])
       .then(async (token) => {
         console.log("HEYYYYY");
-        const room = await checkIfUserAuthorizedForRoom(
-          token,
-          "gokhan" // req.url.replace("/", "")
-        );
+        const room = await readRoomForUser(token);
 
         console.log("HERE");
         if (room) {
-          await db
-            .collection("rooms")
-            .doc("2A5an8gKu20xSLdXVMzf")
-            .set(req.body.studioState);
+          console.log(room);
+          await db.collection("rooms").doc(room.id).set(req.body.studioState);
           res.writeHead(200, { type: "success" });
           res.end();
         }

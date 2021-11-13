@@ -62,6 +62,8 @@ export async function getServerSideProps({ req, query, params, ...context }) {
       console.log("room", room);
 
       // Pass data to the page via props
+      console.log("params", params);
+      console.log("room", room);
       return {
         props: {
           props: { ...room, params: { userId: room.custom_url } }
@@ -76,12 +78,7 @@ export async function getServerSideProps({ req, query, params, ...context }) {
       };
     }
   } catch (err) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false
-      }
-    };
+    return { props: { session: "" } };
   }
 }
 
