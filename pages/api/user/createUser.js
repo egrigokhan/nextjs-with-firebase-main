@@ -42,7 +42,8 @@ export default async (req, res) => {
   if (userData && userData.custom_url) {
     res.status(300).json({
       type: "User exists.",
-      message: `You are already shilling at ${userData.custom_url}`
+      message: `You are already shilling at ${userData.custom_url}`,
+      href: `/${userData.custom_url}`
     });
   } else {
     // TO-DO: Check if custom url available

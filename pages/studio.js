@@ -23,20 +23,6 @@ function Studio({ props, error }) {
         </OpenSeaProvider>
       </StudioProvider>
     );
-  } else {
-    if (error) {
-      return (
-        <Box>
-          <Text>{error.message}</Text>
-        </Box>
-      );
-    } else {
-      return (
-        <Box>
-          <Text>loading</Text>
-        </Box>
-      );
-    }
   }
 }
 
@@ -72,13 +58,18 @@ export async function getServerSideProps({ req, query, params, ...context }) {
     } else {
       return {
         redirect: {
-          destination: "/login",
+          destination: "/",
           permanent: false
         }
       };
     }
   } catch (err) {
-    return { props: { session: "" } };
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false
+      }
+    };
   }
 }
 
