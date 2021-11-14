@@ -149,10 +149,13 @@ export default function ViewRoomItem({ itemIndex }) {
             studioState.rooms[currentRoomIndex].items[itemIndex].opensea
               .permalink
           ) {
-            window.location.href =
-              studioState.rooms[currentRoomIndex].items[
-                itemIndex
-              ].opensea.permalink;
+            window
+              .open(
+                studioState.rooms[currentRoomIndex].items[itemIndex].opensea
+                  .permalink,
+                "_blank"
+              )
+              .focus();
           }
         }}
       />

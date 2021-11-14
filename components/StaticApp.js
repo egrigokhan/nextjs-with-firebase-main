@@ -3,7 +3,7 @@ import { PanZoom } from "react-easy-panzoom";
 import { useRoomDesign } from "../context/RoomDesignContext";
 import { useStudio } from "../context/StudioContext";
 import StaticNavbar from "./StaticNavbar";
-import NavigationControllerView from "./NavigationControllerView";
+import StaticNavigationController from "./StaticNavigationController";
 import ViewRoomItem from "../components/ViewRoomItem";
 
 export default function StaticApp() {
@@ -28,7 +28,7 @@ export default function StaticApp() {
       }}
     >
       <StaticNavbar style={{ zIndex: "-2 !important" }} props={{ ...state }} />
-      <NavigationControllerView />
+      <StaticNavigationController />
       <PanZoom
         id="panner"
         onHold={() => {

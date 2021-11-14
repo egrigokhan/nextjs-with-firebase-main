@@ -9,12 +9,7 @@ export const verifyIdToken = (token) => {
     });
   }
 
-  return admin
-    .auth()
-    .verifyIdToken(token)
-    .catch((error) => {
-      throw error;
-    });
+  return admin.auth().verifyIdToken(token);
 };
 
 export const checkIfUserAuthorizedForRoom = async (token, roomUrl) => {
@@ -58,6 +53,12 @@ export const readRoomForUser = async (token) => {
 };
 
 export const readStaticRoomForUser = async (customURL) => {
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount)
+      // databaseURL: "https://nextjs-firebase-auth-9bc98.firebaseio.com"
+    });
+  }
   const fs = admin.firestore();
 
   const rooms = await fs

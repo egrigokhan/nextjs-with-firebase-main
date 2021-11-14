@@ -41,12 +41,12 @@ function Studio({ props, error }) {
 }
 
 export async function getServerSideProps({ req, query, params, ...context }) {
-  try {
-    console.log("here");
-    const cookies = nookies.get({ req, query, params, ...context });
-    console.log("token", cookies);
-    const token = await verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
+  console.log("here");
+  const cookies = nookies.get({ req, query, params, ...context });
+  console.log("token", cookies);
+  verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
 
+  try {
     console.log("URL", req.url);
     const room = await readStaticRoomForUser(req.url.replace("/", ""));
 

@@ -51,7 +51,28 @@ export default function Login() {
           bottom: "32px"
         }}
       >
-        <input
+        <span
+          onClick={async () => {
+            if (window.ethereum) {
+              const accounts = await window.ethereum
+                .request({ method: "eth_requestAccounts" })
+                .catch((e) => {
+                  console.error(e.message);
+                  return;
+                });
+              if (!accounts) {
+                return;
+              }
+
+              window.userWalletAddress = accounts[0];
+              setWalletAddress(window.userWalletAddress);
+            } else {
+              setStatusMessage({
+                type: "No ethereum connection.",
+                message: "You don't have Metamask."
+              });
+            }
+          }}
           style={{
             backgroundColor: "rgb(41, 41, 42, 0.07)",
             fontFamily: "Inter",
@@ -65,14 +86,13 @@ export default function Login() {
             display: "inline-block",
             padding: "8px 16px",
             cursor: "pointer",
-            color: "black"
+            color: "black",
+            fontWeight: walletAddress ? "regular" : "bold",
+            textAlign: "center"
           }}
-          placeholder="Wallet address"
-          value={walletAddress}
-          onChange={(e) => {
-            setWalletAddress(e.target.value);
-          }}
-        ></input>
+        >
+          {walletAddress ? walletAddress : "Connect your wallet"}
+        </span>
         <span
           style={{
             backgroundColor: "rgb(41, 41, 42, 0.07)",
@@ -126,7 +146,14 @@ export default function Login() {
               textAlignment: "right"
             }}
           >
-            {statusMessage}
+            {statusMessage.href ? (
+              <span>
+                You're already shilling at{" "}
+                <a href={statusMessage.href}>shil.me{statusMessage.href}</a>
+              </span>
+            ) : (
+              statusMessage.message
+            )}
           </p>
         )}
         <button
@@ -145,9 +172,8 @@ export default function Login() {
                   wallet_address: walletAddress
                 })
                   .then(async (res) => {
-                    console.log("success");
                     const json = await res.json();
-                    setStatusMessage(json.message);
+                    setStatusMessage(json);
                   })
                   .catch((err) => {
                     console.log(err);
