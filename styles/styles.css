@@ -54,6 +54,7 @@ body {
   right: 0px;
   width: 90vw;
   z-index: 99900 !important;
+  width: fit-content;
 }
 
 .navigation-controller-view-main {

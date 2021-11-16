@@ -41,7 +41,15 @@ export default function Login() {
       }}
     >
       <NavbarLogin style={{ zIndex: "-2 !important" }} />
-
+      <p
+        style={{
+          fontFamily: "DM Serif Text",
+          fontSize: "72px",
+          marginTop: "0px"
+        }}
+      >
+        So ahead of the curve it looks like a line
+      </p>
       <div
         style={{
           display: "flex",
@@ -174,6 +182,9 @@ export default function Login() {
                   .then(async (res) => {
                     const json = await res.json();
                     setStatusMessage(json);
+                    if (json.success) {
+                      window.location.href = `/${customURL}`;
+                    }
                   })
                   .catch((err) => {
                     console.log(err);

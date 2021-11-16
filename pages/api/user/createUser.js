@@ -14,6 +14,8 @@ const createRoom = (data) => {
   console.log("create room");
   const db = admin.firestore();
   console.log(data);
+  if (!data.user_id || !data.custom_url || !data.wallet_address) {
+  }
   return db.collection("rooms").add({
     user_id: data.user_id,
     wallet_address: data.wallet_address,
@@ -36,6 +38,20 @@ export default async (req, res) => {
     });
   }
 
+  if (!req.body.custom_url || req.body.custom_url == "") {
+    res.status(300).json({
+      type: "Missing information.",
+      message: `Please enter a valid URL.`
+    });
+    return;
+  }
+  if (!req.body.wallet_address) {
+    res.status(300).json({
+      type: "Missing information.",
+      message: `Please connect your wallet.`
+    });
+    return;
+  }
   const db = admin.firestore();
   const user = db.collection("users").doc(req.body.uid);
   const userData = (await user.get()).data();
@@ -50,7 +66,7 @@ export default async (req, res) => {
     if (await checkIfCustomURLExists(req.body.custom_url)) {
       res.status(300).json({
         type: "Custom URL not available.",
-        message: `The custom url https://shil.me/${req.body.custom_url} has already been taken.`
+        message: `The custom url shil.me/${req.body.custom_url} has already been taken.`
       });
     } else {
       console.log(user);
@@ -66,6 +82,7 @@ export default async (req, res) => {
             custom_url: req.body.custom_url
           });
           res.status(200).json({
+            success: true,
             type: "Room created.",
             message: "Created room."
           });

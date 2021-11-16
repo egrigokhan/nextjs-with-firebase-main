@@ -41,10 +41,12 @@ function Studio({ props, error }) {
 }
 
 export async function getServerSideProps({ req, query, params, ...context }) {
-  console.log("here");
-  const cookies = nookies.get({ req, query, params, ...context });
-  console.log("token", cookies);
-  verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
+  if (false) {
+    console.log("here");
+    const cookies = nookies.get({ req, query, params, ...context });
+    console.log("token", cookies);
+    verifyIdToken(cookies["firebase-token"]); // await verifyIdToken(cookies.token);
+  }
 
   try {
     console.log("URL", req.url);
@@ -70,7 +72,7 @@ export async function getServerSideProps({ req, query, params, ...context }) {
     } else {
       return {
         redirect: {
-          destination: "/login",
+          destination: "/join",
           permanent: false
         }
       };
@@ -78,7 +80,7 @@ export async function getServerSideProps({ req, query, params, ...context }) {
   } catch (err) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/join",
         permanent: false
       }
     };

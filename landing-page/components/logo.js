@@ -1,6 +1,7 @@
-/** @jsx jsx */
+/** @jsx jsx */ /** @jsxRuntime classic */
+
 import { jsx, Image, Heading } from "theme-ui";
-import { Link } from "components/link";
+import { Link } from "../components/link";
 
 export default function Logo({ src, ...rest }) {
   return (

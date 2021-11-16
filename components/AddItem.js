@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import { useRoomDesign } from "../context/RoomDesignContext";
 import { useOpenSea } from "../context/OpenSeaContext";
@@ -99,7 +102,7 @@ export default function AddItem() {
                     });
                   }}
                 >
-                  Load more
+                  {<FontAwesomeIcon onClick={() => {}} icon={faPlusCircle} />}
                 </button>
               )}
             </div>

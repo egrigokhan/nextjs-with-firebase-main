@@ -19,7 +19,15 @@ export default function Navbar({ props }) {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ flex: "1", display: "flex", flexDirection: "row" }}>
           <span
-            style={{ fontSize: 18, lineHeight: "32px", marginRight: "3px" }}
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            style={{
+              fontSize: 18,
+              lineHeight: "32px",
+              marginRight: "3px",
+              cursor: "pointer !important"
+            }}
           >
             Shil.me |
           </span>

@@ -1,5 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import React, { Component, useState, useEffect } from "react";
 import { useStudio } from "../context/StudioContext";
+import ReactTooltip from "react-tooltip";
 
 export default function RoomItem({ itemIndex }) {
   const {
@@ -82,13 +86,36 @@ export default function RoomItem({ itemIndex }) {
       className={"Dialog"}
       style={{
         left: state.styles.left,
-        top: state.styles.top
+        top: state.styles.top,
+        width: "inherit",
+        height: "inherit"
       }}
       onMouseDown={_dragStart}
       onMouseMove={_dragging}
       onMouseUp={_dragEnd}
       onMouseLeave={_dragEnd}
     >
+      <div
+        style={{
+          zIndex: "99999999",
+          display: "flex",
+          position: "absolute",
+          top: "24px",
+          right: "24px",
+          width: "inherit"
+        }}
+      >
+        <FontAwesomeIcon
+          data-tip="This item has been verified."
+          onClick={() => {}}
+          style={{
+            float: "right",
+            marginLeft: "auto",
+            color: "rgba(41, 41, 42, 0.07)"
+          }}
+          icon={faCheckCircle}
+        />
+      </div>
       <img
         class="non-interactable-image"
         src={studioState.rooms[currentRoomIndex].items[itemIndex].image_url}

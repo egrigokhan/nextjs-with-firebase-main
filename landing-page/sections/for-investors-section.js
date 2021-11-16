@@ -1,7 +1,7 @@
 /** @jsx jsx */ /** @jsxRuntime classic */
 
 import { jsx } from "theme-ui";
-import { Container, Box, Text } from "theme-ui";
+import { Container, Box, Text, Button } from "theme-ui";
 import SectionHeader from "../components/section-header";
 import PostCard from "../components/post-card.js";
 import ButtonGroup from "../components/button-group";
@@ -72,67 +72,29 @@ const responsive = {
   }
 };
 
-export default function BlogSection() {
+export default function ForInvestorsSection() {
   return (
     <section sx={{ variant: "section.news" }}>
       <Container>
-        <SectionHeader slogan="our blog" title="Filler with a Shiller" />
+        <SectionHeader
+          slogan="for investors"
+          title="Thinking about giving us some funding? Shoot us an email and set up
+          a meeting."
+        />
 
-        <Box
-          sx={styles.carouselWrapper}
-          style={{
-            backgroundColor: "rgba(41, 41, 42, 0.07)",
-            height: "300px",
-            borderRadius: "12px",
-            display: "grid"
-          }}
-        >
-          <Text
-            style={{
-              margin: "auto",
-              textAlign: "center",
-              fontFamily: "DM Serif Text",
-              fontSize: "24px"
-            }}
+        <Box sx={styles.carouselWrapper}>
+          <div
+            style={{ display: "block", width: "fit-content", margin: "auto" }}
           >
-            Coming soon...
-          </Text>
-          {false && (
-            <Carousel
-              additionalTransfrom={0}
-              arrows={false}
-              autoPlaySpeed={3000}
-              centerMode={false}
-              className=""
-              containerClass="carousel-container"
-              customButtonGroup={<ButtonGroup />}
-              dotListClass="test"
-              draggable={true}
-              focusOnSelect={false}
-              infinite={true}
-              itemClass=""
-              keyBoardControl
-              minimumTouchDrag={80}
-              renderButtonGroupOutside
-              renderDotsOutside={false}
-              responsive={responsive}
-              showDots={false}
-              sliderClass=""
-              slidesToSlide={1}
+            <Button
+              style={{
+                width: "fit-content !important",
+                margin: "auto !important"
+              }}
             >
-              {data.map((item) => (
-                <PostCard
-                  key={item.id}
-                  src={item.imgSrc}
-                  alt={item.altText}
-                  postLink={item.postLink}
-                  title={item.title}
-                  authorName={item.authorName}
-                  date={item.date}
-                />
-              ))}
-            </Carousel>
-          )}
+              Email us
+            </Button>
+          </div>
         </Box>
       </Container>
     </section>
@@ -142,7 +104,11 @@ export default function BlogSection() {
 const styles = {
   carouselWrapper: {
     ".carousel-container": {
-      mx: -3
+      mx: -3,
+      minHeight: "inherit",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center"
     }
   }
 };

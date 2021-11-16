@@ -66,7 +66,7 @@ export async function getServerSideProps({ req, query, params, ...context }) {
   } catch (err) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/join",
         permanent: false
       }
     };

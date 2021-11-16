@@ -57,7 +57,7 @@ export async function getServerSideProps(context) {
     };
   } catch (err) {
     console.log(err);
-    context.res.writeHead(302, { Location: "/login" });
+    context.res.writeHead(302, { Location: "/join" });
     context.res.end();
     return { props: {} };
   }
