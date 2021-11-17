@@ -22,7 +22,14 @@ export const AuthProvider = ({ children }) => {
       const token = await user.getIdToken();
       console.log(user.metadata);
       console.log(token);
-      setUser(user);
+      const decodedToken = await user.getIdTokenResult();
+      setUser({
+        ...user,
+        stripe_role: decodedToken.claims.stripeRole
+          ? decodedToken.claims.stripeRole
+          : null
+      });
+
       nookies.set(undefined, "firebase-token", token, {});
     });
   }, []);

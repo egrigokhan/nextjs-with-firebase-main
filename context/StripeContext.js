@@ -8,6 +8,12 @@ const StripeContext = createContext({});
 export const StripeProvider = ({ state, children }) => {
   const { user } = useAuth();
 
+  const getCustomClaimRole = async () => {
+    await firebase.auth().currentUser.getIdToken(true);
+    const decodedToken = await firebase.auth().currentUser.getIdTokenResult();
+    return decodedToken.claims.stripeRole;
+  };
+
   const subscribeToPacket = async (product) => {
     const docRef = await firebase
       .firestore()
@@ -17,7 +23,9 @@ export const StripeProvider = ({ state, children }) => {
       .add({
         price: "price_1JwYNeDOIYv25yULPx5nHOWI",
         success_url: window.location.origin,
-        cancel_url: window.location.origin
+        cancel_url: window.location.origin,
+        allow_promotion_codes: true,
+        trial_period_days: 7
       });
     // Wait for the CheckoutSession to get attached by the extension
     docRef.onSnapshot((snap) => {
@@ -37,7 +45,8 @@ export const StripeProvider = ({ state, children }) => {
   return (
     <StripeContext.Provider
       value={{
-        subscribeToPacket
+        subscribeToPacket,
+        getCustomClaimRole
       }}
     >
       {children}

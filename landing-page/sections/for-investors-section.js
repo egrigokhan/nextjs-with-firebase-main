@@ -74,7 +74,7 @@ const responsive = {
 
 export default function ForInvestorsSection() {
   return (
-    <section sx={{ variant: "section.news" }}>
+    <section id="investors" sx={{ variant: "section.news" }}>
       <Container>
         <SectionHeader
           slogan="for investors"
@@ -87,6 +87,11 @@ export default function ForInvestorsSection() {
             style={{ display: "block", width: "fit-content", margin: "auto" }}
           >
             <Button
+              onClick={() => {
+                window.open(
+                  "mailto:gegri@g.harvard.edu?subject=Interested in Shil.me"
+                );
+              }}
               style={{
                 width: "fit-content !important",
                 margin: "auto !important"
