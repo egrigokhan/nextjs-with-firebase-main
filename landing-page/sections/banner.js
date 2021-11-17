@@ -8,9 +8,11 @@ import ShapeRight from "../assets/shape-right.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useAuth } from "../../auth";
+import { useStripe } from "../../context/StripeContext";
 
 export default function Banner() {
   const { user } = useAuth();
+  const { subscribeToPacket } = useStripe();
   return (
     <section sx={styles.banner} id="home">
       <Container sx={styles.banner.container}>
@@ -30,7 +32,8 @@ export default function Banner() {
                 border: "none"
               }}
               onClick={() => {
-                window.location.href = "/studio";
+                subscribeToPacket("sas");
+                // window.location.href = "/studio";
               }}
             >
               Go to your studio

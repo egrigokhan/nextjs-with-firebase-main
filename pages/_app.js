@@ -12,6 +12,7 @@ import "rc-drawer/assets/index.css";
 import "typeface-dm-sans";
 import "typeface-dm-serif-display";
 import "typeface-inter";
+import { StripeProvider } from "../context/StripeContext";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
       <APIProvider>
-        <Component {...pageProps} />
+        <StripeProvider>
+          <Component {...pageProps} />
+        </StripeProvider>
       </APIProvider>
     </AuthProvider>
   );

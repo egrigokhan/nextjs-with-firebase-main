@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const token = await user.getIdToken();
+      console.log(user.metadata);
       console.log(token);
       setUser(user);
       nookies.set(undefined, "firebase-token", token, {});
