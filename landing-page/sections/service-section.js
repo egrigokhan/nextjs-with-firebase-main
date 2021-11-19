@@ -16,8 +16,8 @@ import TextFeature from "../components/text-feature";
 import ModalVideo from "react-modal-video";
 import { IoIosPlay } from "react-icons/io";
 
-import ServiceThumb from "../assets/service-thumb.png";
-import shapePattern from "../assets/shape-pattern1.png";
+import CustomLinkImage from "../assets/custom-link-image.png";
+import TwitterImage from "../assets/twitter-image.png";
 
 import Smart from "../assets/services/smart.svg";
 import Secure from "../assets/services/secure.svg";
@@ -29,18 +29,33 @@ const data = {
     {
       id: 1,
       imgSrc: Smart,
-      altText: "Custom Studios",
-      title: "Custom Studios",
+      altText: "Wallet integration",
+      title: "Wallet integration",
       text:
-        "Create amazing, fully-customized rooms with your NFTs using our design engine. Our way is to let you have yours."
+        "You just let us know what your wallet is, and we'll take care of the rest."
     },
     {
       id: 2,
-      imgSrc: Secure,
-      altText: "Get the trends on your art",
-      title: "Get the trends on your art",
+      imgSrc: CustomLinkImage,
+      altText: "Custom link",
+      title: "Custom link",
+      text: "Pick a link that reflects your own style our way."
+    },
+    {
+      id: 3,
+      imgSrc: Smart,
+      altText: "Fully customizable",
+      title: "Fully customizable",
       text:
-        "Observe statistics about your art in real-time. Which items are clicked most, how many people visit your room in a day? We crunch the numbers so you don't have to."
+        "Our way is to let you have yours. Fully-customizable, now and always."
+    },
+    {
+      id: 4,
+      imgSrc: TwitterImage,
+      altText: "Twitter integration",
+      title: "Twitter integration",
+      text:
+        "Update your bio and shill your way into a hit Tweet, all without leaving your studio."
     }
   ]
 };
@@ -48,6 +63,7 @@ const data = {
 export default function ServiceSection() {
   // modal popup video handler
   const [videoOpen, setVideoOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(CustomLinkImage);
   const handleClick = (e) => {
     e.preventDefault();
     setVideoOpen(true);
@@ -56,40 +72,51 @@ export default function ServiceSection() {
     <section sx={{ variant: "section.services" }}>
       <Container sx={styles.containerBox}>
         <Box sx={styles.thumbnail}>
-          <Image src={ServiceThumb} alt="Thumbnail" />
-          <Button
-            sx={styles.videoBtn}
-            onClick={handleClick}
-            aria-label="Play Button"
-          >
-            <span>
-              <IoIosPlay />
-            </span>
-          </Button>
+          <Image
+            src={selectedImage}
+            alt="Thumbnail"
+            style={{ padding: "64px" }}
+          />
+          {false && (
+            <Button
+              sx={styles.videoBtn}
+              onClick={handleClick}
+              aria-label="Play Button"
+            >
+              <span>
+                <IoIosPlay />
+              </span>
+            </Button>
+          )}
         </Box>
         <Box sx={styles.contentBox}>
           <TextFeature subTitle={data.subTitle} title={data.title} />
 
           <Grid sx={styles.grid}>
             {data.features.map((item) => (
-              <Box sx={styles.card} key={item.id}>
-                <Image src={item.imgSrc} alt={item.altText} sx={styles.icon} />
-
-                <Box sx={styles.wrapper}>
-                  <Heading sx={styles.wrapper.title}>{item.title}</Heading>
-                  <Text sx={styles.wrapper.subTitle}>{item.text}</Text>
+              <div
+                onMouseEnter={() => {
+                  setSelectedImage(item.imgSrc);
+                }}
+              >
+                <Box sx={styles.card} key={item.id}>
+                  {false && (
+                    <Image
+                      src={item.imgSrc}
+                      alt={item.altText}
+                      sx={styles.icon}
+                    />
+                  )}
+                  <Box sx={styles.wrapper}>
+                    <Heading sx={styles.wrapper.title}>{item.title}</Heading>
+                    <Text sx={styles.wrapper.subTitle}>{item.text}</Text>
+                  </Box>
                 </Box>
-              </Box>
+              </div>
             ))}
           </Grid>
         </Box>
       </Container>
-      <ModalVideo
-        channel="youtube"
-        isOpen={videoOpen}
-        videoId="ZNA9rmDsYVE"
-        onClose={() => setVideoOpen(false)}
-      />
     </section>
   );
 }

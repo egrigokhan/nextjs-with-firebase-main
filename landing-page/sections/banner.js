@@ -3,8 +3,6 @@
 import { jsx } from "theme-ui";
 import { Container, Box, Heading, Text, Image, Button } from "theme-ui";
 import BannerImg from "../assets/banner-thumb.png";
-import ShapeLeft from "../assets/shape-left.png";
-import ShapeRight from "../assets/shape-right.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useAuth } from "../../auth";
@@ -25,9 +23,7 @@ export default function Banner() {
           </Text>
           {user ? (
             <Button
-              variant="primary"
               style={{
-                backgroundColor: "rgb(41, 41, 42)",
                 color: "white",
                 border: "none"
               }}
@@ -42,7 +38,6 @@ export default function Banner() {
             <Button
               variant="primary"
               style={{
-                backgroundColor: "rgb(41, 41, 42)",
                 color: "white",
                 border: "none"
               }}
@@ -50,7 +45,7 @@ export default function Banner() {
                 window.location.href = "/join";
               }}
             >
-              Join with{" "}
+              Join for FREE with{" "}
               <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />
             </Button>
           )}

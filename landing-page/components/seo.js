@@ -1,45 +1,45 @@
-import React from 'react';
-import Head from 'next/head';
+import React from "react";
+import Head from "next/head";
 
 export default function SEO({
-  description = 'startup product landing page',
-  author = 'RedQ, Inc',
+  description = "Shil.me | Display and verify your NFTs",
+  author = "Gokhan Egri",
   meta,
-  title = 'startup landing title',
+  title = "Shil.me | Display and verify your NFTs"
 }) {
   const metaData = [
     {
       name: `description`,
-      content: description,
+      content: description
     },
     {
       property: `og:title`,
-      content: title,
+      content: title
     },
     {
       property: `og:description`,
-      content: description,
+      content: description
     },
     {
       property: `og:type`,
-      content: `website`,
+      content: `website`
     },
     {
       name: `twitter:card`,
-      content: `summary`,
+      content: `summary`
     },
     {
       name: `twitter:creator`,
-      content: author,
+      content: author
     },
     {
       name: `twitter:title`,
-      content: title,
+      content: title
     },
     {
       name: `twitter:description`,
-      content: description,
-    },
+      content: description
+    }
   ].concat(meta);
   return (
     <Head>
@@ -53,5 +53,5 @@ export default function SEO({
 
 SEO.defaultProps = {
   lang: `en`,
-  meta: [],
+  meta: []
 };

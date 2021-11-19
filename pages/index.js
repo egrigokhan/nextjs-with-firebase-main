@@ -22,16 +22,16 @@ export default function IndexPage() {
     <ThemeProvider theme={theme}>
       <StickyProvider>
         <Layout>
-          <SEO title="Shil.me" />
+          <SEO title="Shil.me | Display and verify your NFTs" />
           <Banner />
-          <KeyFeature />
+          {false && <KeyFeature />}
           <ServiceSection />
           <Feature />
           <CoreFeature />
           <WorkFlow />
           <Package />
-          <TeamSection />
-          <TestimonialCard />
+          {false && <TeamSection />}
+          {false && <TestimonialCard />}
           <BlogSection />
           <ForInvestorsSection />
           {false && <Subscribe />}

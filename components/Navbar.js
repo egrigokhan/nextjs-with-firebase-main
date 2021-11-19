@@ -47,7 +47,9 @@ export default function Navbar({ props }) {
           </span>
           {user && (
             <Badge>
-              <span>{user && user.stripe_role == "premium" ? "Pro" : ""}</span>
+              <span>
+                {user && user.stripe_role == "premium" ? "Killer" : ""}
+              </span>
               <span>{user && user.stripe_role != "premium" ? "Free" : ""}</span>
             </Badge>
           )}

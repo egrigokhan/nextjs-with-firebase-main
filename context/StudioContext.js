@@ -7,13 +7,26 @@ export const StudioProvider = ({ state, children }) => {
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const [currentItemAspectRatio, setCurrentItemAspectRatio] = useState(1);
 
-  /*
+  const getAspectRatioForImageURL = (url, callback) => {
+    var img = new Image();
+    img.onload = function () {
+      callback(this.width, this.height);
+    };
+    img.src = url;
+  };
+
   useEffect(() => {
-    console.log("change in room");
-    setUnsavedChanges(true);
-  }, [studioState]);
-  */
+    try {
+      getAspectRatioForImageURL(
+        studioState.rooms[currentRoomIndex].items[currentItemIndex].image_url,
+        (w, h) => {
+          setCurrentItemAspectRatio(h / w);
+        }
+      );
+    } catch {}
+  }, [currentRoomIndex, currentItemIndex]);
 
   const updateItemLocation = (x, y, roomIndex, itemIndex) => {
     var studioStateCopy = studioState;
@@ -74,39 +87,77 @@ export const StudioProvider = ({ state, children }) => {
   };
 
   const addItem = (asset, roomIndex) => {
-    const item = {
-      opensea: asset,
-      id: asset.id,
-      size: {
-        scale: 1,
-        width: 100,
-        height: "auto"
-      },
-      position: {
-        x: 400,
-        y: 100
-      },
-      image_url: asset.image_url,
-      matting: {
-        applied: 1,
-        color: "white",
-        percentage: 10
-      },
-      frame: {
-        applied: 1,
-        color_or_image: 1,
-        color: "black",
-        image: "",
-        width: 10
-      }
-    };
-
-    var studioStateCopy = studioState;
-    var items = studioStateCopy.rooms[roomIndex].items;
-    items.push(item);
-    studioStateCopy.rooms[roomIndex].items = items;
-    setStudioState({ ...studioStateCopy, dummy: true });
-    setUnsavedChanges(true);
+    try {
+      getAspectRatioForImageURL(asset.image_url, (w, h) => {
+        const item = {
+          opensea: asset,
+          id: asset.id,
+          size: {
+            scale: 1,
+            width: 100,
+            height: 100 * (h / w),
+            aspect_ratio: h / w
+          },
+          position: {
+            x: 400,
+            y: 100
+          },
+          image_url: asset.image_url,
+          matting: {
+            applied: 1,
+            color: "white",
+            percentage: 10
+          },
+          frame: {
+            applied: 1,
+            color_or_image: 1,
+            color: "black",
+            image: "",
+            width: 10
+          }
+        };
+        var studioStateCopy = studioState;
+        var items = studioStateCopy.rooms[roomIndex].items;
+        items.push(item);
+        studioStateCopy.rooms[roomIndex].items = items;
+        setStudioState({ ...studioStateCopy, dummy: true });
+        setUnsavedChanges(true);
+      });
+    } catch {
+      const item = {
+        opensea: asset,
+        id: asset.id,
+        size: {
+          scale: 1,
+          width: 100,
+          height: 100,
+          aspect_ratio: 1
+        },
+        position: {
+          x: 400,
+          y: 100
+        },
+        image_url: asset.image_url,
+        matting: {
+          applied: 1,
+          color: "white",
+          percentage: 10
+        },
+        frame: {
+          applied: 1,
+          color_or_image: 1,
+          color: "black",
+          image: "",
+          width: 10
+        }
+      };
+      var studioStateCopy = studioState;
+      var items = studioStateCopy.rooms[roomIndex].items;
+      items.push(item);
+      studioStateCopy.rooms[roomIndex].items = items;
+      setStudioState({ ...studioStateCopy, dummy: true });
+      setUnsavedChanges(true);
+    }
   };
 
   const removeItem = (roomIndex, itemIndex) => {
@@ -136,7 +187,8 @@ export const StudioProvider = ({ state, children }) => {
         addItem,
         unsavedChanges,
         setUnsavedChanges,
-        removeItem
+        removeItem,
+        currentItemAspectRatio
       }}
     >
       {children}

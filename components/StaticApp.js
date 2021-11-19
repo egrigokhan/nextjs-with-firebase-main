@@ -5,6 +5,9 @@ import { useStudio } from "../context/StudioContext";
 import StaticNavbar from "./StaticNavbar";
 import StaticNavigationController from "./StaticNavigationController";
 import ViewRoomItem from "../components/ViewRoomItem";
+import TaglineImage from "../assets/tagline-image.png";
+
+import Head from "next/head";
 
 export default function StaticApp() {
   const { studioState, currentRoomIndex } = useStudio();
@@ -27,6 +30,15 @@ export default function StaticApp() {
         zIndex: "-1 !important"
       }}
     >
+      <Head>
+        <title>Shil.me | {state.params.userId}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link
+          rel="icon"
+          type="image/x-icon"
+          href="https://lh3.googleusercontent.com/NGslfvs43xE8gSL7tYn8lgULTLhK9Yv_3-rzWAQVRwrHu1VDNkBiy93cBOjdoxuY6P_pE0duMOpajOoqtSXRKeogLIvddjAW7YjyIRQ"
+        />
+      </Head>
       <StaticNavbar style={{ zIndex: "-2 !important" }} props={{ ...state }} />
       <StaticNavigationController />
       <PanZoom

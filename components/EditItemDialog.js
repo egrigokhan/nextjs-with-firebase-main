@@ -8,7 +8,8 @@ export default function EditItemDialog({ itemIndex }) {
     currentRoomIndex,
     currentItemIndex,
     updateItem,
-    removeItem
+    removeItem,
+    currentItemAspectRatio
   } = useStudio();
 
   const { MATTING_COLORS, FRAME_COLORS } = useRoomDesign();
@@ -44,7 +45,7 @@ export default function EditItemDialog({ itemIndex }) {
   const [matting, setMatting] = useState({});
   const [keepAspectRatio, setKeepAspectRatio] = useState(true);
   const [size, setSize] = useState({
-    height: "auto",
+    height: currentItemAspectRatio ? currentItemAspectRatio * 100 : 100,
     width: 100
   });
   const [frame, setFrame] = useState({});
@@ -436,10 +437,9 @@ export default function EditItemDialog({ itemIndex }) {
                   marginLeft: "auto"
                 }}
               >
-                {
-                  studioState.rooms[currentRoomIndex].items[currentItemIndex]
-                    .size.width
-                }
+                {studioState.rooms[currentRoomIndex].items[
+                  currentItemIndex
+                ].size.width.toFixed(1)}
               </span>
             </div>
             <input
@@ -460,7 +460,9 @@ export default function EditItemDialog({ itemIndex }) {
                         currentItemIndex
                       ].size,
                       width: parseFloat(e.target.value),
-                      height: keepAspectRatio ? "auto" : size.height
+                      height: keepAspectRatio
+                        ? currentItemAspectRatio * parseFloat(e.target.value)
+                        : size.height
                     }
                   },
                   currentItemIndex,
@@ -506,10 +508,12 @@ export default function EditItemDialog({ itemIndex }) {
                   marginLeft: "auto"
                 }}
               >
-                {
-                  studioState.rooms[currentRoomIndex].items[currentItemIndex]
-                    .size.height
-                }
+                {studioState.rooms[currentRoomIndex].items[currentItemIndex]
+                  .size.height != "auto"
+                  ? studioState.rooms[currentRoomIndex].items[
+                      currentItemIndex
+                    ].size.height.toFixed(1)
+                  : "auto"}
               </span>
             </div>
             <input
@@ -530,7 +534,9 @@ export default function EditItemDialog({ itemIndex }) {
                         currentItemIndex
                       ].size,
                       height: parseFloat(e.target.value),
-                      width: keepAspectRatio ? "auto" : size.width
+                      width: keepAspectRatio
+                        ? parseFloat(e.target.value) / currentItemAspectRatio
+                        : size.width
                     }
                   },
                   currentItemIndex,
@@ -565,7 +571,7 @@ export default function EditItemDialog({ itemIndex }) {
                   setKeepAspectRatio(!keepAspectRatio);
                   setSize({
                     ...size,
-                    height: "auto"
+                    height: size.width * currentItemAspectRatio
                   });
                 }}
                 style={{ marginLeft: "auto" }}

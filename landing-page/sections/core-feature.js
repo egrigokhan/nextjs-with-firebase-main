@@ -4,16 +4,13 @@ import { jsx, Container, Box } from "theme-ui";
 import TextFeature from "../components/text-feature";
 import Image from "../components/image";
 
-import FeatureThumb from "../assets/core-feature.png";
-import shapePattern from "../assets/shape-pattern2.png";
+import FeatureThumb from "../assets/license-to-shill-card.png";
 
 const data = {
-  subTitle: "Core features",
-  title: "Smart Jackpots that you may love this anytime & anywhere",
+  subTitle: "Meta-shill",
+  title: "'License to Shill' NFT Card",
   description:
-    "Get your tests delivered at let home collect sample from the victory of the managements that supplies best design system guidelines ever.",
-  btnName: "Get Started",
-  btnURL: "#"
+    "Get an exclusive, 'License to Shill' NFT card for free when you sign-up for the Killer Shiller plan."
 };
 
 export default function CoreFeature() {
@@ -30,7 +27,11 @@ export default function CoreFeature() {
           />
         </Box>
         <Box sx={styles.thumbnail}>
-          <Image src={FeatureThumb} alt="Thumbnail" />
+          <Image
+            src={FeatureThumb}
+            alt="Thumbnail"
+            style={{ padding: "64px" }}
+          />
         </Box>
       </Container>
     </section>

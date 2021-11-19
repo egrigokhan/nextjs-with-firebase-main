@@ -15,25 +15,38 @@ const packages = {
       id: 1,
       name: "Chiller Shiller",
       description: "For small-time NFT enthusiasts",
-      buttonText: "Start free trail",
-      priceWithUnit: "$0",
+      buttonText: "Join now",
+      priceWithUnit: "FREE",
+      type: "",
       points: [
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "Computer generated link",
+          isAvailable: true
+        },
+        {
+          id: 0,
+          icon: <IoIosCheckmarkCircle />,
+          text: "OpenSea integration",
+          isAvailable: true
+        },
         {
           id: 1,
           icon: <IoIosCheckmarkCircle />,
-          text: "Drag & Drop Builder",
+          text: "Limited customization palette",
           isAvailable: true
         },
         {
           id: 2,
           icon: <IoIosCheckmarkCircle />,
-          text: "1,000's of Templates",
+          text: "Only 1 room for each account",
           isAvailable: true
         },
         {
           id: 3,
           icon: <IoIosCheckmarkCircle />,
-          text: "Blog Support Tools",
+          text: "No video item (.mp4, .wav, etc.) support",
           isAvailable: true
         },
         {
@@ -46,46 +59,65 @@ const packages = {
     },
     {
       id: 2,
+      header: "FREE 7-day trial",
       name: "Killer Shiller",
       description: "For those who are in it to win it",
-      priceWithUnit: "$15",
-      buttonText: "Create account",
-      anotherOption: "Or Start 14 Days trail",
+      priceWithUnit: "$9",
+      buttonText: "Join now",
+      type: "monthly",
       points: [
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "Personalized link",
+          isAvailable: true
+        },
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "'License to Shill' NFT card on sign-up",
+          isAvailable: true
+        },
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "Instant item verification",
+          isAvailable: true
+        },
+        {
+          id: 0,
+          icon: <IoIosCheckmarkCircle />,
+          text: "OpenSea integration",
+          isAvailable: true
+        },
         {
           id: 1,
           icon: <IoIosCheckmarkCircle />,
-          text: "Drag & Drop Builder",
+          text: "Full customization palette",
           isAvailable: true
         },
         {
           id: 2,
           icon: <IoIosCheckmarkCircle />,
-          text: "1,000's of Templates",
+          text: "Up to 69 rooms for each account",
           isAvailable: true
         },
         {
           id: 3,
           icon: <IoIosCheckmarkCircle />,
-          text: "Blog Support Tools",
-          isAvailable: true
-        },
-        {
-          id: 4,
-          icon: <IoIosCheckmarkCircle />,
-          text: "eCommerce Store ",
+          text: "Video item support",
           isAvailable: true
         }
       ]
     },
     {
       id: 3,
-      header: "Limited Time Offer",
       headerIcon: <IoIosCheckmarkCircle />,
       name: "Iller Shiller",
       description: "For the Shillers who have either a Cryptopunk or an Ape",
-      priceWithUnit: "$0",
+      priceWithUnit: "FREE",
       buttonText: "Contact for verification",
+      type: "",
       points: [
         {
           id: 1,
@@ -117,103 +149,134 @@ const packages = {
   annual: [
     {
       id: 1,
-      name: "Free Plan",
-      description: "For Small teams or office",
-      buttonText: "Start free trail",
-      priceWithUnit: "$0",
+      name: "Chiller Shiller",
+      description: "For small-time NFT enthusiasts",
+      buttonText: "Join now",
+      priceWithUnit: "FREE",
+      type: "",
       points: [
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "Computer generated link",
+          isAvailable: true
+        },
+        {
+          id: 0,
+          icon: <IoIosCheckmarkCircle />,
+          text: "OpenSea integration",
+          isAvailable: true
+        },
         {
           id: 1,
           icon: <IoIosCheckmarkCircle />,
-          text: "1,000's of Templates",
+          text: "Limited customization palette",
           isAvailable: true
         },
         {
           id: 2,
           icon: <IoIosCheckmarkCircle />,
-          text: "Drag & Drop Builder",
+          text: "Only 1 room for each account",
           isAvailable: true
         },
         {
           id: 3,
           icon: <IoIosCheckmarkCircle />,
-          text: "Blog Support Tools",
+          text: "No video item (.mp4, .wav, etc.) support",
           isAvailable: true
         },
         {
           id: 4,
-          icon: <IoIosCloseCircle />,
-          text: "eCommerce Store ",
+          icon: <IoIosCheckmarkCircle />,
+          text: "No credit card required",
           isAvailable: true
         }
       ]
     },
     {
       id: 2,
-      name: "Business king",
-      description: "For Enterprise business",
-      priceWithUnit: "$25",
-      buttonText: "Create account",
-      anotherOption: "Or Start 10 Days trail",
+      header: "FREE 7-day trial",
+      name: "Killer Shiller",
+      description: "For those who are in it to win it",
+      priceWithUnit: "$90",
+      type: "annual",
+      buttonText: "Join now",
       points: [
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "Personalized link",
+          isAvailable: true
+        },
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "'License to Shill' NFT card on sign-up",
+          isAvailable: true
+        },
+        {
+          id: -1,
+          icon: <IoIosCheckmarkCircle />,
+          text: "Instant item verification",
+          isAvailable: true
+        },
+        {
+          id: 0,
+          icon: <IoIosCheckmarkCircle />,
+          text: "OpenSea integration",
+          isAvailable: true
+        },
         {
           id: 1,
           icon: <IoIosCheckmarkCircle />,
-          text: "eCommerce Store",
+          text: "Full customization palette",
           isAvailable: true
         },
         {
           id: 2,
           icon: <IoIosCheckmarkCircle />,
-          text: "Blog Support Tools",
+          text: "Up to 69 rooms for each account",
           isAvailable: true
         },
         {
           id: 3,
           icon: <IoIosCheckmarkCircle />,
-          text: "1,000's of Templates",
-          isAvailable: true
-        },
-        {
-          id: 4,
-          icon: <IoIosCheckmarkCircle />,
-          text: "Drag & Drop Builder ",
+          text: "Video item support",
           isAvailable: true
         }
       ]
     },
     {
       id: 3,
-      header: "Suggested",
       headerIcon: <IoIosCheckmarkCircle />,
-      name: "Pro Master",
-      description: "For pro level developers",
-      priceWithUnit: "$39",
-      buttonText: "Create account",
-      anotherOption: "Or Start 10 Days trail",
+      name: "Iller Shiller",
+      description: "For the Shillers who have either a Cryptopunk or an Ape",
+      priceWithUnit: "FREE",
+      type: "",
+      buttonText: "Contact for verification",
       points: [
         {
           id: 1,
           icon: <IoIosCheckmarkCircle />,
-          text: "eCommerce Store",
+          text: "Drag & Drop Builder",
           isAvailable: true
         },
         {
           id: 2,
           icon: <IoIosCheckmarkCircle />,
-          text: "Blog Support Tools",
+          text: "1,000's of Templates",
           isAvailable: true
         },
         {
           id: 3,
           icon: <IoIosCheckmarkCircle />,
-          text: "1,000's of Templates",
+          text: "Blog Support Tools",
           isAvailable: true
         },
         {
           id: 4,
           icon: <IoIosCheckmarkCircle />,
-          text: "Drag & Drop Builder ",
+          text: "eCommerce Store ",
           isAvailable: true
         }
       ]
