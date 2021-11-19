@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import { useRoomDesign } from "../context/RoomDesignContext";
 import { useOpenSea } from "../context/OpenSeaContext";
@@ -61,6 +64,7 @@ export default function AddItem() {
                 display: "flex",
                 flexDirection: "row",
                 height: "100px",
+                width: "auto",
                 overflowX: "scroll"
               }}
               onScrollEnd={(e) => {
@@ -71,7 +75,7 @@ export default function AddItem() {
                 assets.map((asset) => (
                   <img
                     src={asset.image_url}
-                    width="200px"
+                    width="auto"
                     height="100%"
                     style={{ marginRight: "8px", cursor: "pointer" }}
                     onClick={() => {
@@ -82,7 +86,13 @@ export default function AddItem() {
                 ))}
               {loadMoreEnabled && (
                 <button
-                  style={{ background: "none", border: "none" }}
+                  style={{
+                    background: "rgba(41, 41, 42, 0.07)",
+                    display: "flex",
+                    border: "none",
+                    width: "100px",
+                    borderRadius: "8px"
+                  }}
                   onClick={() => {
                     retrieveAssets(
                       studioState["wallet_address"],
@@ -99,7 +109,22 @@ export default function AddItem() {
                     });
                   }}
                 >
-                  Load more
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      wordBreak: "none",
+                      width: "500px",
+                      height: "50px",
+                      lineHeight: "50px",
+                      marginTop: "calc(50% - 20px)"
+                    }}
+                  >
+                    Load more
+                  </span>
+                  {false && (
+                    <FontAwesomeIcon onClick={() => {}} icon={faPlusCircle} />
+                  )}
                 </button>
               )}
             </div>

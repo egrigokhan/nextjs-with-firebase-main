@@ -16,7 +16,12 @@ export default function Navbar() {
     <div class="navigation-controller-view-container">
       {!isInPreview && (
         <div
-          style={{ display: "flex", flexDirection: "row", marginBottom: "8px" }}
+          style={{
+            display: "flex",
+            width: "fit-content",
+            margin: "auto",
+            marginBottom: "8px"
+          }}
         >
           <div
             className="navigation-controller-view-add-room-main"
@@ -37,7 +42,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", width: "fit-content", margin: "auto" }}>
         <div
           class="arrow-left"
           style={{

@@ -1,11 +1,16 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { Container, Box, Heading, Text, Image, Button } from "theme-ui";
-import BannerImg from "assets/banner-thumb.png";
-import ShapeLeft from "assets/shape-left.png";
-import ShapeRight from "assets/shape-right.png";
+import BannerImg from "../assets/banner-thumb.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { useAuth } from "../../auth";
+import { useStripe } from "../../context/StripeContext";
 
 export default function Banner() {
+  const { user } = useAuth();
+  const { subscribeToPacket } = useStripe();
   return (
     <section sx={styles.banner} id="home">
       <Container sx={styles.banner.container}>
@@ -16,7 +21,34 @@ export default function Banner() {
           <Text as="p" variant="heroSecondary">
             Display your most valuable possessions in style
           </Text>
-          <Button variant="primary">Explore</Button>
+          {user ? (
+            <Button
+              style={{
+                color: "white",
+                border: "none"
+              }}
+              onClick={() => {
+                subscribeToPacket("sas");
+                // window.location.href = "/studio";
+              }}
+            >
+              Go to your studio
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              style={{
+                color: "white",
+                border: "none"
+              }}
+              onClick={() => {
+                window.location.href = "/join";
+              }}
+            >
+              Join for FREE with{" "}
+              <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />
+            </Button>
+          )}
         </Box>
 
         <Box sx={styles.banner.imageBox}>

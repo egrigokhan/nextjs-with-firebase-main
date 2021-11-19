@@ -10,6 +10,9 @@ import NavbarLogin from "./NavbarLogin";
 import "firebase/auth";
 import firebase from "firebase";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import TaglineImage from "../assets/tagline-image.png";
+
+import Head from "next/head";
 
 export default function Login() {
   const { studioState, currentRoomIndex } = useStudio();
@@ -20,6 +23,7 @@ export default function Login() {
 
   const [roomIndex, setRoomIndex] = useState(0);
 
+  const [pricePackage, setPricePackage] = useState("killer_monthly");
   firebaseClient();
   const toast = useToast();
   const [walletAddress, setWalletAddress] = useState("");
@@ -27,6 +31,12 @@ export default function Login() {
   const [statusMessage, setStatusMessage] = useState("");
 
   const { createUser } = useAPI();
+
+  useEffect(() => {
+    if (pricePackage != "killer_monthly" && pricePackage != "killer_annually") {
+      setCustomURL("bunny-time");
+    }
+  }, [pricePackage]);
   useEffect(() => {
     console.log(roomIndex);
     console.log("state", state);
@@ -40,8 +50,23 @@ export default function Login() {
         backgroundColor: "white"
       }}
     >
+      <Head>
+        <title>Shil.me | Join</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <NavbarLogin style={{ zIndex: "-2 !important" }} />
-
+      <img src={TaglineImage} style={{ width: "70%", maxWidth: "700px" }} />
+      {false && (
+        <p
+          style={{
+            fontFamily: "DM Serif Text",
+            fontSize: "72px",
+            marginTop: "0px"
+          }}
+        >
+          So ahead of the curve it looks like a line
+        </p>
+      )}
       <div
         style={{
           display: "flex",
@@ -130,11 +155,98 @@ export default function Login() {
             }}
             placeholder="your custom url"
             value={customURL}
+            disabled={
+              pricePackage != "killer_monthly" &&
+              pricePackage != "killer_annually"
+            }
             onChange={(e) => {
               setCustomURL(e.target.value);
             }}
           ></input>
         </span>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "4px"
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={pricePackage == "chiller"}
+            onChange={() => {
+              setPricePackage("chiller");
+            }}
+            style={{ marginRight: "8px", display: "flex" }}
+          />
+          <div style={{ flexDirection: "column", display: "flex" }}>
+            <span
+              style={{ fontSize: 12, fontFamily: "Inter", fontWeight: "bold" }}
+            >
+              Chiller Shiller (Free)
+            </span>
+            <span style={{ fontSize: 12, fontFamily: "Inter" }}>
+              For small-time NFT enthusiasts
+            </span>
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "4px"
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={pricePackage == "killer_monthly"}
+            onChange={() => {
+              setPricePackage("killer_monthly");
+            }}
+            style={{
+              marginRight: "8px",
+              display: "flex",
+              background: "green",
+              backgroundColor: "green"
+            }}
+          />
+          <div style={{ flexDirection: "column", display: "flex" }}>
+            <span
+              style={{ fontSize: 12, fontFamily: "Inter", fontWeight: "bold" }}
+            >
+              Killer Shiller ($9/monthly with FREE 7-day trial)
+            </span>
+            <span style={{ fontSize: 12, fontFamily: "Inter" }}>
+              For those who are in it to win it
+            </span>
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "8px"
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={pricePackage == "killer_annually"}
+            onChange={() => {
+              setPricePackage("killer_annually");
+            }}
+            style={{ marginRight: "8px", display: "flex" }}
+          />
+          <div style={{ flexDirection: "column", display: "flex" }}>
+            <span
+              style={{ fontSize: 12, fontFamily: "Inter", fontWeight: "bold" }}
+            >
+              Killer Shiller ($90/annually with FREE 7-day trial)
+            </span>
+            <span style={{ fontSize: 12, fontFamily: "Inter" }}>
+              For those who are in it to win it
+            </span>
+          </div>
+        </div>
         {statusMessage && (
           <p
             style={{
@@ -174,6 +286,9 @@ export default function Login() {
                   .then(async (res) => {
                     const json = await res.json();
                     setStatusMessage(json);
+                    if (json.success) {
+                      window.location.href = `/${customURL}`;
+                    }
                   })
                   .catch((err) => {
                     console.log(err);
@@ -206,7 +321,7 @@ export default function Login() {
             float: "right"
           }}
         >
-          {"Login with"}{" "}
+          {"Join with"}{" "}
           {<FontAwesomeIcon onClick={() => {}} icon={faTwitter} />}
         </button>
       </div>

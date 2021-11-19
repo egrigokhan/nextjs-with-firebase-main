@@ -1,16 +1,17 @@
-/** @jsx jsx */
+/** @jsx jsx */ /** @jsxRuntime classic */
+
 import { jsx } from "theme-ui";
 import { Container, Grid } from "theme-ui";
-import SectionHeader from "components/section-header";
-import TeamCard from "components/team-card";
+import SectionHeader from "../components/section-header";
+import TeamCard from "../components/team-card";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 
-import Shiller1 from "assets/shillers/shiller-1.png";
-import Shiller2 from "assets/shillers/shiller-2.png";
-import Member3 from "assets/team/member-3.png";
-import Member4 from "assets/team/member-4.png";
-import Member5 from "assets/team/member-5.png";
-import Member6 from "assets/team/member-6.png";
+import Shiller1 from "../assets/shillers/shiller-1.png";
+import Shiller2 from "../assets/shillers/shiller-2.png";
+import Member3 from "../assets/team/member-3.png";
+import Member4 from "../assets/team/member-4.png";
+import Member5 from "../assets/team/member-5.png";
+import Member6 from "../assets/team/member-6.png";
 
 const data = [
   {

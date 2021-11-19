@@ -4,7 +4,9 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useRoomDesign } from "../context/RoomDesignContext";
 import { useAPI } from "../context/APIContext";
 import { useStudio } from "../context/StudioContext";
-
+import { useStripe } from "../context/StripeContext";
+import { useAuth } from "../auth";
+import Badge from "./Badge";
 export default function Navbar({ props }) {
   const {
     studioState,
@@ -14,20 +16,43 @@ export default function Navbar({ props }) {
   } = useStudio();
   const { isInPreview, setIsInPreview } = useRoomDesign();
   const { createUser, updateStudio } = useAPI();
+  const { getCustomClaimRole } = useStripe();
+  const { user } = useAuth();
   return (
     <div class="navbar">
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ flex: "1", display: "flex", flexDirection: "row" }}>
           <span
-            style={{ fontSize: 18, lineHeight: "32px", marginRight: "3px" }}
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            style={{
+              fontSize: 18,
+              lineHeight: "32px",
+              marginRight: "3px",
+              cursor: "pointer !important"
+            }}
           >
             Shil.me |
           </span>
           <span
-            style={{ fontFamily: "Inter", fontSize: 14, lineHeight: "32px" }}
+            style={{
+              fontFamily: "Inter",
+              fontSize: 14,
+              lineHeight: "32px",
+              marginRight: "4px"
+            }}
           >
             @{props.params.userId}
           </span>
+          {user && (
+            <Badge>
+              <span>
+                {user && user.stripe_role == "premium" ? "Killer" : ""}
+              </span>
+              <span>{user && user.stripe_role != "premium" ? "Free" : ""}</span>
+            </Badge>
+          )}
         </div>
         {true && (
           <div

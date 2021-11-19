@@ -1,20 +1,26 @@
-/** @jsx jsx */
+/** @jsx jsx */ /** @jsxRuntime classic */
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { jsx, Container, Flex, Button } from "theme-ui";
 import { keyframes } from "@emotion/core";
 import { Link } from "react-scroll";
-import Logo from "components/logo";
-import LogoDark from "assets/logo.svg";
+import Logo from "../../components/logo";
+import LogoDark from "../../assets/logo.svg";
 import { DrawerProvider } from "../../contexts/drawer/drawer.provider";
 import MobileDrawer from "./mobile-drawer";
 import menuItems from "./header.data";
+import { useAuth } from "../../../auth";
+import { React } from "react";
 
 export default function Header({ className }) {
+  const { user } = useAuth();
   return (
     <DrawerProvider>
       <header sx={styles.header} className={className} id="header">
         <Container sx={styles.container}>
           <Logo src={LogoDark} />
-
           <Flex as="nav" sx={styles.nav}>
             {menuItems.map(({ path, label }, i) => (
               <Link
@@ -30,15 +36,38 @@ export default function Header({ className }) {
               </Link>
             ))}
           </Flex>
-
-          <Button
-            className="donate__btn"
-            variant="secondary"
-            aria-label="Get Started"
-          >
-            Get Started
-          </Button>
-
+          {!user ? (
+            <Button
+              className="donate__btn"
+              style={{
+                backgroundColor: "rgb(41, 41, 42, 0.07)",
+                border: "none",
+                color: "black"
+              }}
+              variant="secondary"
+              aria-label="Get Started"
+            >
+              Join with <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                console.log("button");
+                window.location.href = "/studio";
+              }}
+              className="donate__btn"
+              style={{
+                backgroundColor: "rgb(41, 41, 42, 0.07)",
+                border: "none",
+                color: "black"
+              }}
+              variant="secondary"
+              aria-label="Get Started"
+            >
+              <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />{" "}
+              {user.providerData[0].displayName}
+            </Button>
+          )}
           <MobileDrawer />
         </Container>
       </header>

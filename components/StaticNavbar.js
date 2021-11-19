@@ -27,7 +27,15 @@ export default function StaticNavbar({ props }) {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ flex: "1", display: "flex", flexDirection: "row" }}>
           <span
-            style={{ fontSize: 18, lineHeight: "32px", marginRight: "3px" }}
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            style={{
+              fontSize: 18,
+              lineHeight: "32px",
+              marginRight: "3px",
+              cursor: "pointer !important"
+            }}
           >
             Shil.me |
           </span>
@@ -88,7 +96,7 @@ export default function StaticNavbar({ props }) {
             <button
               onClick={() => {
                 console.log("updateStudio");
-                window.location.href = "/login";
+                window.location.href = "/join";
               }}
               style={{
                 transitionDuration: "0.3s",
@@ -105,7 +113,8 @@ export default function StaticNavbar({ props }) {
                 cursor: "pointer"
               }}
             >
-              Login with <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />
+              Start shilling with{" "}
+              <FontAwesomeIcon onClick={() => {}} icon={faTwitter} />
             </button>
           )}
         </div>

@@ -12,10 +12,6 @@ export default [
     label: "Pricing"
   },
   {
-    path: "testimonial",
-    label: "Testimonial"
-  },
-  {
     path: "investors",
     label: "For investors"
   }
